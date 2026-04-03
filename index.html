@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Redline Horizon is a pseudo-3D road racer starter for GitHub Pages." />
+    <title>Redline Horizon</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Retro road racer</p>
+          <h1>Redline Horizon</h1>
+          <p class="lede">
+            A behind-the-car arcade racer prototype chasing that bright, fast, one-more-run feeling of classic road games.
+          </p>
+        </div>
+        <div class="controls">
+          <span>Steer: arrows or A / D</span>
+          <span>Throttle: up or W</span>
+          <span>Brake: down or S</span>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="road-frame">
+          <canvas id="roadCanvas" width="960" height="640" aria-label="Redline Horizon playable road"></canvas>
+        </section>
+        <aside class="hud">
+          <div class="hud-card">
+            <p class="eyebrow">Run data</p>
+            <div class="metric"><span>Speed</span><strong id="speedValue">0</strong></div>
+            <div class="metric"><span>Distance</span><strong id="distanceValue">0</strong></div>
+            <div class="metric"><span>Traffic dodged</span><strong id="trafficValue">0</strong></div>
+          </div>
+          <div class="hud-card">
+            <p class="eyebrow">Prototype route</p>
+            <p>
+              This pass is about selling horizon speed, road rhythm, and lane discipline before we add weather, music,
+              stage progression, or more expressive traffic behaviour.
+            </p>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
