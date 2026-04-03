@@ -1,6 +1,8 @@
 # Redline Horizon
 
-GitHub Pages-friendly pseudo-3D road racer starter.
+`Redline Horizon` is a GitHub Pages-friendly pseudo-3D road racer starter aiming toward a fuller desktop arcade racer inspired by *Lotus III* and *OutRun*.
+
+The production direction lives in [DESIGN-BIBLE.md](./DESIGN-BIBLE.md).
 
 This first playable pass is focused on:
 
