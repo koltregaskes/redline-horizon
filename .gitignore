@@ -2,6 +2,9 @@
 .serve.err.log
 .DS_Store
 Thumbs.db
+dist/
+node_modules/
+godot/.godot/
 
 # Local-only planning and scratch docs
 docs/local/

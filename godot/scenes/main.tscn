@@ -1,0 +1,91 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/redline_spike.gd" id="1_redline"]
+[ext_resource type="Script" path="res://scripts/road_view.gd" id="2_road"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_redline")
+
+[node name="RoadView" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_road")
+
+[node name="Ui" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = -32.0
+offset_bottom = -32.0
+
+[node name="Panel" type="PanelContainer" parent="Ui"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="VBox" type="VBoxContainer" parent="Ui/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Ui/Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Redline Horizon Spike"
+
+[node name="Body" type="Label" parent="Ui/Panel/VBox"]
+layout_mode = 2
+autowrap_mode = 3
+text = ""
+
+[node name="MusicLabel" type="Label" parent="Ui/Panel/VBox"]
+layout_mode = 2
+autowrap_mode = 3
+text = ""
+
+[node name="RouteLabel" type="Label" parent="Ui/Panel/VBox"]
+layout_mode = 2
+autowrap_mode = 3
+text = ""
+
+[node name="StatusLabel" type="Label" parent="Ui/Panel/VBox"]
+layout_mode = 2
+autowrap_mode = 3
+text = ""
+
+[node name="Buttons" type="HBoxContainer" parent="Ui/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MusicButton" type="Button" parent="Ui/Panel/VBox/Buttons"]
+layout_mode = 2
+text = "Cycle Music"
+
+[node name="HarborButton" type="Button" parent="Ui/Panel/VBox/Buttons"]
+layout_mode = 2
+text = "Harbor"
+
+[node name="NeonButton" type="Button" parent="Ui/Panel/VBox/Buttons"]
+layout_mode = 2
+text = "Neon"
+
+[node name="StartButton" type="Button" parent="Ui/Panel/VBox/Buttons"]
+layout_mode = 2
+text = "Start"
+
+[node name="ResetButton" type="Button" parent="Ui/Panel/VBox/Buttons"]
+layout_mode = 2
+text = "Reset"

@@ -1,0 +1,1473 @@
+{
+  "cars": [
+    {
+      "id": "solstice-gt",
+      "name": "Solstice GT",
+      "tagline": "Balanced sunset cruiser",
+      "accent": "#ffd36d",
+      "bodyColor": "#f7d966",
+      "stripeColor": "#13213b",
+      "portraitTitle": "Festival poster favorite",
+      "portraitGradient": [
+        "#ffcc74",
+        "#ff7f74"
+      ],
+      "description": "The studio poster car: stable on sweepers, forgiving in traffic, and fast enough to feel expensive.",
+      "flavorText": "Chosen by drivers who want the postcard route to still feel heroic when the timer tightens.",
+      "topSpeed": 234,
+      "acceleration": 0.8,
+      "grip": 0.92,
+      "boost": 0.84,
+      "draftGain": 1,
+      "collisionPenalty": 1,
+      "unlockRule": {
+        "type": "default",
+        "label": "Available from the first run."
+      }
+    },
+    {
+      "id": "monarch-xr",
+      "name": "Monarch XR",
+      "tagline": "Long-legged night machine",
+      "accent": "#7ce6ff",
+      "bodyColor": "#62d6ff",
+      "stripeColor": "#0b1428",
+      "portraitTitle": "Financial-district missile",
+      "portraitGradient": [
+        "#74d7ff",
+        "#466eff"
+      ],
+      "description": "The fastest car in the line-up. It carries speed brilliantly but asks for cleaner inputs once the road tightens.",
+      "flavorText": "Best when you trust the elevated line and keep the wheel calm through the late skyline sweepers.",
+      "topSpeed": 248,
+      "acceleration": 0.74,
+      "grip": 0.84,
+      "boost": 0.92,
+      "draftGain": 1.08,
+      "collisionPenalty": 1.18,
+      "unlockRule": {
+        "type": "medal",
+        "value": "Silver",
+        "label": "Intended early unlock after proving a silver-pace run."
+      }
+    },
+    {
+      "id": "aero-vista",
+      "name": "Aero Vista",
+      "tagline": "Agile route-split specialist",
+      "accent": "#ff8bb8",
+      "bodyColor": "#ff6ea9",
+      "stripeColor": "#1d1730",
+      "portraitTitle": "Late-braking harbor knife",
+      "portraitGradient": [
+        "#ff6ea9",
+        "#ffaf6a"
+      ],
+      "description": "Sharper turn-in and easy recovery make this the safest pick if you want to flirt with near misses and late route choices.",
+      "flavorText": "Feels lighter on its feet, happiest when the run asks for decisions more than raw velocity.",
+      "topSpeed": 228,
+      "acceleration": 0.88,
+      "grip": 1,
+      "boost": 0.78,
+      "draftGain": 0.96,
+      "collisionPenalty": 0.92,
+      "unlockRule": {
+        "type": "default",
+        "label": "Available from the first run."
+      }
+    }
+  ],
+  "music_packs": [
+    {
+      "id": "sunset-vector",
+      "name": "Sunset Vector",
+      "theme": "Bright synth-pop cruise",
+      "accent": "#ffd36d",
+      "description": "A golden-hour lead line with enough lift to sell the opening coast road immediately.",
+      "previewCue": "Warm pads, bright lead, postcard optimism.",
+      "rootHz": 220,
+      "bpm": 118,
+      "routeMood": {
+        "harbor": "Keeps the harbor branch playful and expensive.",
+        "neon": "Turns the expressway into a glamorous late-summer sprint."
+      },
+      "sections": {
+        "cruise": {
+          "id": "sunset-vector-cruise",
+          "label": "Coastline cruise",
+          "leadPattern": [
+            12,
+            14,
+            16,
+            19,
+            16,
+            14,
+            12,
+            9
+          ],
+          "bassPattern": [
+            0,
+            0,
+            5,
+            5,
+            7,
+            7,
+            5,
+            3
+          ],
+          "padPattern": [
+            0,
+            7,
+            5,
+            9
+          ],
+          "accentPattern": [
+            24,
+            24,
+            0,
+            24
+          ]
+        },
+        "branch": {
+          "id": "sunset-vector-branch",
+          "label": "Split commitment",
+          "leadPattern": [
+            16,
+            19,
+            21,
+            19,
+            16,
+            14,
+            12,
+            14
+          ],
+          "bassPattern": [
+            0,
+            5,
+            7,
+            5,
+            3,
+            0,
+            5,
+            7
+          ],
+          "padPattern": [
+            0,
+            5,
+            9,
+            7
+          ],
+          "accentPattern": [
+            24,
+            0,
+            24,
+            28
+          ]
+        },
+        "finish": {
+          "id": "sunset-vector-finish",
+          "label": "Skyline arrival",
+          "leadPattern": [
+            21,
+            19,
+            16,
+            24,
+            21,
+            19,
+            16,
+            14
+          ],
+          "bassPattern": [
+            0,
+            7,
+            5,
+            9,
+            7,
+            5,
+            3,
+            0
+          ],
+          "padPattern": [
+            0,
+            9,
+            7,
+            5
+          ],
+          "accentPattern": [
+            28,
+            31,
+            28,
+            24
+          ]
+        }
+      },
+      "checkpointSting": [
+        12,
+        19
+      ],
+      "lowTimeSting": [
+        7,
+        3
+      ],
+      "finishSting": [
+        12,
+        16,
+        19,
+        24
+      ],
+      "unlockRule": {
+        "type": "default",
+        "label": "Available from the first run."
+      }
+    },
+    {
+      "id": "slipstream-serenade",
+      "name": "Slipstream Serenade",
+      "theme": "Palm-lined fusion pulse",
+      "accent": "#70f7d3",
+      "description": "More rhythmic and playful, tuned for traffic weaving and that first checkpoint rush.",
+      "previewCue": "Percussive bass pulse and a breezy lead figure.",
+      "rootHz": 196,
+      "bpm": 124,
+      "routeMood": {
+        "harbor": "Pairs especially well with the low-road dock rhythm.",
+        "neon": "Adds a little lounge confidence to the skyline rush."
+      },
+      "sections": {
+        "cruise": {
+          "id": "slipstream-serenade-cruise",
+          "label": "Palm boulevard",
+          "leadPattern": [
+            7,
+            10,
+            12,
+            14,
+            12,
+            10,
+            7,
+            5
+          ],
+          "bassPattern": [
+            0,
+            3,
+            5,
+            3,
+            0,
+            3,
+            7,
+            5
+          ],
+          "padPattern": [
+            0,
+            5,
+            3,
+            7
+          ],
+          "accentPattern": [
+            19,
+            0,
+            17,
+            0
+          ]
+        },
+        "branch": {
+          "id": "slipstream-serenade-branch",
+          "label": "Harbor rhythm",
+          "leadPattern": [
+            12,
+            14,
+            15,
+            17,
+            15,
+            14,
+            12,
+            10
+          ],
+          "bassPattern": [
+            0,
+            5,
+            3,
+            7,
+            5,
+            3,
+            0,
+            3
+          ],
+          "padPattern": [
+            0,
+            3,
+            7,
+            10
+          ],
+          "accentPattern": [
+            19,
+            22,
+            19,
+            17
+          ]
+        },
+        "finish": {
+          "id": "slipstream-serenade-finish",
+          "label": "Festival lights",
+          "leadPattern": [
+            15,
+            17,
+            19,
+            22,
+            19,
+            17,
+            15,
+            12
+          ],
+          "bassPattern": [
+            0,
+            7,
+            5,
+            10,
+            7,
+            5,
+            3,
+            0
+          ],
+          "padPattern": [
+            0,
+            7,
+            10,
+            5
+          ],
+          "accentPattern": [
+            24,
+            22,
+            19,
+            17
+          ]
+        }
+      },
+      "checkpointSting": [
+        10,
+        14
+      ],
+      "lowTimeSting": [
+        5,
+        2
+      ],
+      "finishSting": [
+        12,
+        15,
+        19,
+        22
+      ],
+      "unlockRule": {
+        "type": "default",
+        "label": "Available from the first run."
+      }
+    },
+    {
+      "id": "night-circuit",
+      "name": "Night Circuit",
+      "theme": "Neon skyline runner",
+      "accent": "#98a7ff",
+      "description": "A darker expressway groove for the city branch, with a cooler low end and cleaner attack.",
+      "previewCue": "Cold bassline, glassy lead, late-night momentum.",
+      "rootHz": 246.94,
+      "bpm": 132,
+      "routeMood": {
+        "harbor": "Makes the docks feel tense and expensive.",
+        "neon": "The intended soundtrack for the elevated neon charge."
+      },
+      "sections": {
+        "cruise": {
+          "id": "night-circuit-cruise",
+          "label": "Blue-hour glide",
+          "leadPattern": [
+            0,
+            3,
+            7,
+            10,
+            12,
+            10,
+            7,
+            3
+          ],
+          "bassPattern": [
+            0,
+            -2,
+            3,
+            -2,
+            5,
+            3,
+            -2,
+            -5
+          ],
+          "padPattern": [
+            0,
+            3,
+            7,
+            10
+          ],
+          "accentPattern": [
+            19,
+            19,
+            22,
+            0
+          ]
+        },
+        "branch": {
+          "id": "night-circuit-branch",
+          "label": "Expressway lock-in",
+          "leadPattern": [
+            7,
+            10,
+            12,
+            15,
+            12,
+            10,
+            7,
+            5
+          ],
+          "bassPattern": [
+            0,
+            3,
+            7,
+            3,
+            10,
+            7,
+            3,
+            0
+          ],
+          "padPattern": [
+            0,
+            7,
+            10,
+            12
+          ],
+          "accentPattern": [
+            24,
+            0,
+            24,
+            27
+          ]
+        },
+        "finish": {
+          "id": "night-circuit-finish",
+          "label": "Skyline charge",
+          "leadPattern": [
+            12,
+            15,
+            19,
+            22,
+            24,
+            22,
+            19,
+            15
+          ],
+          "bassPattern": [
+            0,
+            7,
+            10,
+            7,
+            12,
+            10,
+            7,
+            3
+          ],
+          "padPattern": [
+            0,
+            10,
+            12,
+            7
+          ],
+          "accentPattern": [
+            27,
+            31,
+            27,
+            24
+          ]
+        }
+      },
+      "checkpointSting": [
+        12,
+        15
+      ],
+      "lowTimeSting": [
+        3,
+        0
+      ],
+      "finishSting": [
+        12,
+        19,
+        24,
+        27
+      ],
+      "unlockRule": {
+        "type": "score",
+        "value": 2400,
+        "label": "Intended unlock after a strong first complete run."
+      }
+    }
+  ],
+  "stages": [
+    {
+      "id": "azure-coast",
+      "label": "Azure Coast",
+      "description": "Sunset cliffs, palms, and warm ocean glare.",
+      "biome": "coast",
+      "scenery": "palms",
+      "start": 0,
+      "end": 2600,
+      "trafficDensity": 0.55,
+      "trafficDensityCurve": [
+        0.42,
+        0.58,
+        0.68
+      ],
+      "skyline": 0.18,
+      "nightLevel": 0.08,
+      "horizonLift": 0.01,
+      "billboardSet": "festival-posters",
+      "weatherModifier": "sea-breeze",
+      "checkpointTarget": 14,
+      "eventBannerPool": [
+        "dispatch-intro",
+        "cassette-reminder"
+      ],
+      "destinationPostcardText": "Azure Coast opens like a brochure: orange sea light, palms, and a horizon that already promises a city worth chasing.",
+      "palette": {
+        "skyTop": "#183067",
+        "skyMid": "#ff8a68",
+        "skyBottom": "#ffd494",
+        "sun": "#ffd66b",
+        "glow": "#ffb26a",
+        "farSilhouette": "#526f9a",
+        "nearSilhouette": "#1b3557",
+        "sea": "#2e75ad",
+        "ground": "#142335",
+        "road": "#4d5965",
+        "lane": "#f1f1ee",
+        "shoulder": "#c6ae78",
+        "curbA": "#fff2d8",
+        "curbB": "#d7484a",
+        "roadsidePrimary": "#38b879",
+        "roadsideSecondary": "#2a8f61",
+        "cityLight": "#ffe2a3",
+        "fog": "#f8c8a0"
+      }
+    },
+    {
+      "id": "mirage-causeway",
+      "label": "Mirage Causeway",
+      "description": "Long bridge spans, sodium lamps, and the first skyline hints.",
+      "biome": "causeway",
+      "scenery": "causeway",
+      "start": 2600,
+      "end": 5050,
+      "trafficDensity": 0.72,
+      "trafficDensityCurve": [
+        0.68,
+        0.76,
+        0.82
+      ],
+      "skyline": 0.34,
+      "nightLevel": 0.35,
+      "horizonLift": 0.02,
+      "billboardSet": "causeway-signage",
+      "weatherModifier": "clear",
+      "checkpointTarget": 13,
+      "eventBannerPool": [
+        "rival-checkin",
+        "route-split-warning"
+      ],
+      "destinationPostcardText": "The causeway is the promise shot: a bridge of sodium lamps with Mirador City beginning to glow in the distance.",
+      "palette": {
+        "skyTop": "#16264c",
+        "skyMid": "#935a87",
+        "skyBottom": "#f8b36c",
+        "sun": "#ffd6a0",
+        "glow": "#ff9c6f",
+        "farSilhouette": "#516181",
+        "nearSilhouette": "#182339",
+        "sea": "#1f4569",
+        "ground": "#111929",
+        "road": "#505763",
+        "lane": "#f4f1e9",
+        "shoulder": "#9c9d9d",
+        "curbA": "#ecf0ff",
+        "curbB": "#e1525a",
+        "roadsidePrimary": "#ffd486",
+        "roadsideSecondary": "#84d7ff",
+        "cityLight": "#ffe8af",
+        "fog": "#a790ba"
+      }
+    },
+    {
+      "id": "harbor-slip",
+      "label": "Harbor Slip",
+      "description": "Dock cranes, warehouse strips, and stacked brake lights.",
+      "biome": "harbor",
+      "scenery": "harbor",
+      "start": 5050,
+      "end": 7100,
+      "trafficDensity": 0.88,
+      "trafficDensityCurve": [
+        0.84,
+        0.92,
+        0.86
+      ],
+      "skyline": 0.52,
+      "nightLevel": 0.62,
+      "horizonLift": 0.025,
+      "billboardSet": "port-logistics",
+      "weatherModifier": "harbor-haze",
+      "checkpointTarget": 12,
+      "eventBannerPool": [
+        "harbor-scenic",
+        "rival-harbor"
+      ],
+      "destinationPostcardText": "Harbor Slip feels industrial and alive: cranes cut across the skyline while brake lights stack under the docks.",
+      "palette": {
+        "skyTop": "#0d1937",
+        "skyMid": "#214567",
+        "skyBottom": "#db9156",
+        "sun": "#f8b86d",
+        "glow": "#ff874f",
+        "farSilhouette": "#334a67",
+        "nearSilhouette": "#101b2d",
+        "sea": "#0d2946",
+        "ground": "#0c1524",
+        "road": "#454d57",
+        "lane": "#f3ede4",
+        "shoulder": "#6a7885",
+        "curbA": "#f2f6ff",
+        "curbB": "#ff6d63",
+        "roadsidePrimary": "#7fe3ef",
+        "roadsideSecondary": "#ffb45f",
+        "cityLight": "#ffd38b",
+        "fog": "#4f6d88"
+      }
+    },
+    {
+      "id": "neon-express",
+      "label": "Neon Express",
+      "description": "Elevated ribbon roads with billboard light and city glow.",
+      "biome": "metro",
+      "scenery": "neon",
+      "start": 5050,
+      "end": 7100,
+      "trafficDensity": 0.76,
+      "trafficDensityCurve": [
+        0.66,
+        0.74,
+        0.82
+      ],
+      "skyline": 0.75,
+      "nightLevel": 0.92,
+      "horizonLift": 0.035,
+      "billboardSet": "luxury-neon",
+      "weatherModifier": "neon-mist",
+      "checkpointTarget": 12,
+      "eventBannerPool": [
+        "neon-scenic",
+        "rival-neon"
+      ],
+      "destinationPostcardText": "Neon Express is the premium fantasy: elevated ribbon roads, cold signage, and a skyline that feels close enough to touch.",
+      "palette": {
+        "skyTop": "#071125",
+        "skyMid": "#1a2558",
+        "skyBottom": "#6a3976",
+        "sun": "#ff76c5",
+        "glow": "#6e8cff",
+        "farSilhouette": "#29406d",
+        "nearSilhouette": "#09101d",
+        "sea": "#111b33",
+        "ground": "#070d17",
+        "road": "#3f4652",
+        "lane": "#f5f2ff",
+        "shoulder": "#52608b",
+        "curbA": "#dfe9ff",
+        "curbB": "#ff5aa5",
+        "roadsidePrimary": "#78d7ff",
+        "roadsideSecondary": "#ff83d2",
+        "cityLight": "#9de5ff",
+        "fog": "#303d74"
+      }
+    },
+    {
+      "id": "marina-underpass",
+      "label": "Marina Underpass",
+      "description": "Ferry windows, service tunnels, and warm dockside afterglow.",
+      "biome": "harbor",
+      "scenery": "harbor",
+      "start": 5050,
+      "end": 7100,
+      "trafficDensity": 0.84,
+      "trafficDensityCurve": [
+        0.8,
+        0.88,
+        0.83
+      ],
+      "skyline": 0.48,
+      "nightLevel": 0.68,
+      "horizonLift": 0.02,
+      "billboardSet": "marina-afterparty",
+      "weatherModifier": "harbor-haze",
+      "checkpointTarget": 12,
+      "eventBannerPool": [
+        "afterglow-marina-scenic",
+        "afterglow-marina-rival"
+      ],
+      "destinationPostcardText": "Marina Underpass trades big-crane drama for ferries, service tunnels, and warm reflections under the hillside roads.",
+      "palette": {
+        "skyTop": "#101d3b",
+        "skyMid": "#244664",
+        "skyBottom": "#e59a5b",
+        "sun": "#ffc57b",
+        "glow": "#ff9460",
+        "farSilhouette": "#36516f",
+        "nearSilhouette": "#111b2c",
+        "sea": "#12304d",
+        "ground": "#0d1624",
+        "road": "#474f59",
+        "lane": "#f5efe5",
+        "shoulder": "#778391",
+        "curbA": "#f4f7ff",
+        "curbB": "#ff7a62",
+        "roadsidePrimary": "#84efd0",
+        "roadsideSecondary": "#ffc07a",
+        "cityLight": "#ffe1a0",
+        "fog": "#5c748c"
+      }
+    },
+    {
+      "id": "crown-vista",
+      "label": "Crown Vista",
+      "description": "Terrace ramps, rooftop glass, and a colder hilltop climb.",
+      "biome": "metro",
+      "scenery": "neon",
+      "start": 5050,
+      "end": 7100,
+      "trafficDensity": 0.72,
+      "trafficDensityCurve": [
+        0.64,
+        0.72,
+        0.8
+      ],
+      "skyline": 0.82,
+      "nightLevel": 0.94,
+      "horizonLift": 0.04,
+      "billboardSet": "crown-overlook",
+      "weatherModifier": "neon-mist",
+      "checkpointTarget": 12,
+      "eventBannerPool": [
+        "afterglow-crown-scenic",
+        "afterglow-crown-rival"
+      ],
+      "destinationPostcardText": "Crown Vista is the hilltop fantasy: terrace ramps, rooftop glass, and the observatory ring burning through the mist ahead.",
+      "palette": {
+        "skyTop": "#08111f",
+        "skyMid": "#16274c",
+        "skyBottom": "#7f5a4a",
+        "sun": "#ffd27b",
+        "glow": "#8bbfff",
+        "farSilhouette": "#2b4268",
+        "nearSilhouette": "#08111b",
+        "sea": "#111a2f",
+        "ground": "#060d16",
+        "road": "#414754",
+        "lane": "#f7f4ef",
+        "shoulder": "#627097",
+        "curbA": "#edf4ff",
+        "curbB": "#ff9068",
+        "roadsidePrimary": "#84dfff",
+        "roadsideSecondary": "#ffd27b",
+        "cityLight": "#b6efff",
+        "fog": "#36486f"
+      }
+    },
+    {
+      "id": "skyline-finish",
+      "label": "Skyline Finish",
+      "description": "The final rush under towers and reflected glass.",
+      "biome": "metro",
+      "scenery": "neon",
+      "start": 7100,
+      "end": 9200,
+      "trafficDensity": 0.82,
+      "trafficDensityCurve": [
+        0.78,
+        0.84,
+        0.8
+      ],
+      "skyline": 0.96,
+      "nightLevel": 1,
+      "horizonLift": 0.04,
+      "billboardSet": "skyline-festival",
+      "weatherModifier": "clear",
+      "checkpointTarget": 11,
+      "eventBannerPool": [
+        "final-approach"
+      ],
+      "destinationPostcardText": "Mirador Skyline closes the run with tower reflections, festival light, and just enough traffic to keep the city feeling alive.",
+      "palette": {
+        "skyTop": "#050b16",
+        "skyMid": "#101c40",
+        "skyBottom": "#4f2b67",
+        "sun": "#80f0ff",
+        "glow": "#8f86ff",
+        "farSilhouette": "#1f345f",
+        "nearSilhouette": "#060b14",
+        "sea": "#0c1320",
+        "ground": "#050912",
+        "road": "#3e4451",
+        "lane": "#f5f2ff",
+        "shoulder": "#586491",
+        "curbA": "#ffffff",
+        "curbB": "#ff4f9d",
+        "roadsidePrimary": "#81e8ff",
+        "roadsideSecondary": "#ff9ed9",
+        "cityLight": "#9ff0ff",
+        "fog": "#222e56"
+      }
+    },
+    {
+      "id": "afterglow-heights",
+      "label": "Afterglow Heights",
+      "description": "The final ascent through hilltop terraces and observatory light.",
+      "biome": "metro",
+      "scenery": "neon",
+      "start": 7100,
+      "end": 9200,
+      "trafficDensity": 0.78,
+      "trafficDensityCurve": [
+        0.72,
+        0.8,
+        0.76
+      ],
+      "skyline": 0.9,
+      "nightLevel": 0.98,
+      "horizonLift": 0.05,
+      "billboardSet": "heights-afterparty",
+      "weatherModifier": "clear",
+      "checkpointTarget": 11,
+      "eventBannerPool": [
+        "afterglow-final-approach"
+      ],
+      "destinationPostcardText": "Afterglow Heights closes the run with terrace lights, observatory glow, and a final climb that feels more celebratory than hostile.",
+      "palette": {
+        "skyTop": "#071018",
+        "skyMid": "#17304e",
+        "skyBottom": "#8f5d44",
+        "sun": "#ffe29a",
+        "glow": "#ffd08b",
+        "farSilhouette": "#254565",
+        "nearSilhouette": "#071018",
+        "sea": "#101926",
+        "ground": "#060b12",
+        "road": "#424851",
+        "lane": "#fbf7ef",
+        "shoulder": "#6b7395",
+        "curbA": "#fff8ef",
+        "curbB": "#ff8b67",
+        "roadsidePrimary": "#8ee6ff",
+        "roadsideSecondary": "#ffd38e",
+        "cityLight": "#fff0c0",
+        "fog": "#3c4d69"
+      }
+    }
+  ],
+  "route_tree": {
+    "id": "azure-coast-run",
+    "title": "Azure Coast Run",
+    "strapline": "Coast road to skyline stage",
+    "story": "Carry the Mirador Skyline festival master tape from the coast road to the city before the last gate closes.",
+    "totalDistance": 9200,
+    "branchDistance": 5050,
+    "branchHintDistance": 800,
+    "checkpoints": [
+      {
+        "distance": 1800,
+        "bonus": 14,
+        "label": "Azure Coast Gate"
+      },
+      {
+        "distance": 3600,
+        "bonus": 13,
+        "label": "Causeway Midpoint"
+      },
+      {
+        "distance": 5600,
+        "bonus": 12,
+        "label": "Split Recovery Gate"
+      },
+      {
+        "distance": 7600,
+        "bonus": 11,
+        "label": "Skyline Entry Gate"
+      }
+    ],
+    "branches": [
+      {
+        "id": "harbor",
+        "name": "Harbor Slip",
+        "strapline": "Low road, dock lights, tighter rhythm",
+        "description": "The scenic lower line. It ducks toward cranes, ferry lights, and denser traffic pockets before the skyline opens up.",
+        "risk": "Higher weave density, slightly calmer curves.",
+        "accent": "#79f0ff",
+        "scenicMomentTitle": "Dock light glide",
+        "scenicMomentSubtitle": "Low road postcard under cranes and stacked brake lights."
+      },
+      {
+        "id": "neon",
+        "name": "Neon Express",
+        "strapline": "High road, open throttle, city glow",
+        "description": "The glamorous fast route. Broader sweepers, heavier speed, and a cleaner charge into the financial district.",
+        "risk": "Faster flow, wider curves, larger collision penalties at speed.",
+        "accent": "#ff70b3",
+        "scenicMomentTitle": "Skyline ribbon road",
+        "scenicMomentSubtitle": "High road postcard with billboards, glass, and blue neon haze."
+      }
+    ],
+    "stageOrder": [
+      {
+        "stageId": "azure-coast",
+        "branch": "all"
+      },
+      {
+        "stageId": "mirage-causeway",
+        "branch": "all"
+      },
+      {
+        "stageId": "harbor-slip",
+        "branch": "harbor"
+      },
+      {
+        "stageId": "neon-express",
+        "branch": "neon"
+      },
+      {
+        "stageId": "skyline-finish",
+        "branch": "all"
+      }
+    ],
+    "storyBeatIds": [
+      "dispatch-intro",
+      "cassette-reminder",
+      "rival-checkin",
+      "route-split-warning",
+      "harbor-scenic",
+      "rival-harbor",
+      "neon-scenic",
+      "rival-neon",
+      "final-approach"
+    ],
+    "presentation": {
+      "accent": "#ffd46d",
+      "titleEyebrow": "Festival drop",
+      "titleBody": "Azure Coast Run should feel like the expensive postcard version of the city delivery fantasy: warm coast start, clean split, and a glamorous arrival under the Mirador lights.",
+      "routeCardTitle": "Golden coast into city glass",
+      "routeCardBody": "This board sells the original Redline fantasy in one pass: palms and sea glare first, then a choice between dock rhythm and neon altitude before Mirador opens ahead.",
+      "soundscapeTitle": "Warm wind, brake-light hiss, skyline bloom",
+      "soundscapeBody": "The road mood here is seaside wash into sodium lamps and finally mirrored glass. It should feel like the soundtrack is chasing the horizon with you, not sitting underneath it.",
+      "destinationMood": "Premium festival arrival",
+      "destinationGlow": "Even before the finish, Azure Coast Run should read as a glossy city-night promise with enough warmth to keep the whole sprint romantic rather than severe."
+    },
+    "endings": {
+      "harbor": {
+        "destination": "Mirador Harbor Promenade",
+        "title": "Harbor arrival",
+        "subtitle": "You slipped under the cranes, held the dock rhythm, and delivered the tape with the skyline rising above the water.",
+        "postcard": "Mirador Harbor Promenade feels intimate and cinematic: ferry lights below, skyline above, festival glow waiting at the edge of the docks.",
+        "arrivalTitle": "Festival barges answer the dock line",
+        "arrivalSubtitle": "The last gate opens over the harbor road and the skyline stage answers with reflections off the water, crane lights, and a crowd already leaning over the railings.",
+        "festivalCue": "The promenade crowd sees the tape van arrive first, then your taillights. The whole low road feels like it paid off at once.",
+        "soundtrackCue": "The selected music pack lands warm and close here, like the final bars are echoing between warehouses and the festival deck."
+      },
+      "neon": {
+        "destination": "Mirador Skyline Deck",
+        "title": "Express arrival",
+        "subtitle": "You took the elevated line, kept the speed honest, and delivered the tape straight into the city lights.",
+        "postcard": "Mirador Skyline Deck lands like a premium postcard: glass towers, cold neon, and the stage district opening under the expressway.",
+        "arrivalTitle": "Skyline lights open like a stage reveal",
+        "arrivalSubtitle": "The express spills you straight into the festival district: mirrored towers, overpass glow, and a clean final sightline to the Mirador deck.",
+        "festivalCue": "This payoff feels widescreen and expensive. The city does not just receive the tape; it seems to flare on in response.",
+        "soundtrackCue": "The chosen music pack hits hardest here, where the last melody feels like it is syncing to signs, glass, and the final tower reflections."
+      }
+    }
+  },
+  "route_trees": [
+    {
+      "id": "azure-coast-run",
+      "title": "Azure Coast Run",
+      "strapline": "Coast road to skyline stage",
+      "story": "Carry the Mirador Skyline festival master tape from the coast road to the city before the last gate closes.",
+      "totalDistance": 9200,
+      "branchDistance": 5050,
+      "branchHintDistance": 800,
+      "checkpoints": [
+        {
+          "distance": 1800,
+          "bonus": 14,
+          "label": "Azure Coast Gate"
+        },
+        {
+          "distance": 3600,
+          "bonus": 13,
+          "label": "Causeway Midpoint"
+        },
+        {
+          "distance": 5600,
+          "bonus": 12,
+          "label": "Split Recovery Gate"
+        },
+        {
+          "distance": 7600,
+          "bonus": 11,
+          "label": "Skyline Entry Gate"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harbor",
+          "name": "Harbor Slip",
+          "strapline": "Low road, dock lights, tighter rhythm",
+          "description": "The scenic lower line. It ducks toward cranes, ferry lights, and denser traffic pockets before the skyline opens up.",
+          "risk": "Higher weave density, slightly calmer curves.",
+          "accent": "#79f0ff",
+          "scenicMomentTitle": "Dock light glide",
+          "scenicMomentSubtitle": "Low road postcard under cranes and stacked brake lights."
+        },
+        {
+          "id": "neon",
+          "name": "Neon Express",
+          "strapline": "High road, open throttle, city glow",
+          "description": "The glamorous fast route. Broader sweepers, heavier speed, and a cleaner charge into the financial district.",
+          "risk": "Faster flow, wider curves, larger collision penalties at speed.",
+          "accent": "#ff70b3",
+          "scenicMomentTitle": "Skyline ribbon road",
+          "scenicMomentSubtitle": "High road postcard with billboards, glass, and blue neon haze."
+        }
+      ],
+      "stageOrder": [
+        {
+          "stageId": "azure-coast",
+          "branch": "all"
+        },
+        {
+          "stageId": "mirage-causeway",
+          "branch": "all"
+        },
+        {
+          "stageId": "harbor-slip",
+          "branch": "harbor"
+        },
+        {
+          "stageId": "neon-express",
+          "branch": "neon"
+        },
+        {
+          "stageId": "skyline-finish",
+          "branch": "all"
+        }
+      ],
+      "storyBeatIds": [
+        "dispatch-intro",
+        "cassette-reminder",
+        "rival-checkin",
+        "route-split-warning",
+        "harbor-scenic",
+        "rival-harbor",
+        "neon-scenic",
+        "rival-neon",
+        "final-approach"
+      ],
+      "presentation": {
+        "accent": "#ffd46d",
+        "titleEyebrow": "Festival drop",
+        "titleBody": "Azure Coast Run should feel like the expensive postcard version of the city delivery fantasy: warm coast start, clean split, and a glamorous arrival under the Mirador lights.",
+        "routeCardTitle": "Golden coast into city glass",
+        "routeCardBody": "This board sells the original Redline fantasy in one pass: palms and sea glare first, then a choice between dock rhythm and neon altitude before Mirador opens ahead.",
+        "soundscapeTitle": "Warm wind, brake-light hiss, skyline bloom",
+        "soundscapeBody": "The road mood here is seaside wash into sodium lamps and finally mirrored glass. It should feel like the soundtrack is chasing the horizon with you, not sitting underneath it.",
+        "destinationMood": "Premium festival arrival",
+        "destinationGlow": "Even before the finish, Azure Coast Run should read as a glossy city-night promise with enough warmth to keep the whole sprint romantic rather than severe."
+      },
+      "endings": {
+        "harbor": {
+          "destination": "Mirador Harbor Promenade",
+          "title": "Harbor arrival",
+          "subtitle": "You slipped under the cranes, held the dock rhythm, and delivered the tape with the skyline rising above the water.",
+          "postcard": "Mirador Harbor Promenade feels intimate and cinematic: ferry lights below, skyline above, festival glow waiting at the edge of the docks.",
+          "arrivalTitle": "Festival barges answer the dock line",
+          "arrivalSubtitle": "The last gate opens over the harbor road and the skyline stage answers with reflections off the water, crane lights, and a crowd already leaning over the railings.",
+          "festivalCue": "The promenade crowd sees the tape van arrive first, then your taillights. The whole low road feels like it paid off at once.",
+          "soundtrackCue": "The selected music pack lands warm and close here, like the final bars are echoing between warehouses and the festival deck."
+        },
+        "neon": {
+          "destination": "Mirador Skyline Deck",
+          "title": "Express arrival",
+          "subtitle": "You took the elevated line, kept the speed honest, and delivered the tape straight into the city lights.",
+          "postcard": "Mirador Skyline Deck lands like a premium postcard: glass towers, cold neon, and the stage district opening under the expressway.",
+          "arrivalTitle": "Skyline lights open like a stage reveal",
+          "arrivalSubtitle": "The express spills you straight into the festival district: mirrored towers, overpass glow, and a clean final sightline to the Mirador deck.",
+          "festivalCue": "This payoff feels widescreen and expensive. The city does not just receive the tape; it seems to flare on in response.",
+          "soundtrackCue": "The chosen music pack hits hardest here, where the last melody feels like it is syncing to signs, glass, and the final tower reflections."
+        }
+      }
+    },
+    {
+      "id": "afterglow-heights-run",
+      "title": "Afterglow Heights Run",
+      "strapline": "Coast transfer to the hilltop afterparty",
+      "story": "The main stage is already breathing. Now the afterparty cassette has to clear the coast, pick a district line, and make Lumen Heights before the last observatory lights fade.",
+      "totalDistance": 9200,
+      "branchDistance": 5050,
+      "branchHintDistance": 800,
+      "checkpoints": [
+        {
+          "distance": 1800,
+          "bonus": 14,
+          "label": "Azure Relay Gate"
+        },
+        {
+          "distance": 3600,
+          "bonus": 13,
+          "label": "Causeway Crown"
+        },
+        {
+          "distance": 5600,
+          "bonus": 12,
+          "label": "District Transfer Gate"
+        },
+        {
+          "distance": 7600,
+          "bonus": 11,
+          "label": "Heights Ascent Gate"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harbor",
+          "name": "Marina Underpass",
+          "strapline": "Low line, ferries, amber service road",
+          "description": "The lower afterparty line. It cuts through the marina service lanes, ferry glare, and amber gantries before the climb toward Lumen Heights.",
+          "risk": "Tighter packs, calmer arcs, and more tunnel-shadow traffic.",
+          "accent": "#7de3c8",
+          "scenicMomentTitle": "Ferry glass run",
+          "scenicMomentSubtitle": "Marina postcard under ferry windows, sodium rails, and warm harbor reflections."
+        },
+        {
+          "id": "neon",
+          "name": "Crown Vista",
+          "strapline": "High line, terrace ramps, electric overlook",
+          "description": "The upper afterparty line. It takes terrace ramps, rooftop edges, and a colder climb into the hilltop district.",
+          "risk": "Cleaner flow, faster descents, and harsher punishment near the walls.",
+          "accent": "#ffd27b",
+          "scenicMomentTitle": "Terrace light climb",
+          "scenicMomentSubtitle": "High road postcard with balcony lights, hillside glass, and the observatory ring glowing ahead."
+        }
+      ],
+      "stageOrder": [
+        {
+          "stageId": "azure-coast",
+          "branch": "all"
+        },
+        {
+          "stageId": "mirage-causeway",
+          "branch": "all"
+        },
+        {
+          "stageId": "marina-underpass",
+          "branch": "harbor"
+        },
+        {
+          "stageId": "crown-vista",
+          "branch": "neon"
+        },
+        {
+          "stageId": "afterglow-heights",
+          "branch": "all"
+        }
+      ],
+      "storyBeatIds": [
+        "afterglow-dispatch",
+        "afterglow-dj",
+        "afterglow-rival",
+        "afterglow-split-warning",
+        "afterglow-marina-scenic",
+        "afterglow-marina-rival",
+        "afterglow-crown-scenic",
+        "afterglow-crown-rival",
+        "afterglow-final-approach"
+      ],
+      "presentation": {
+        "accent": "#ffd08b",
+        "titleEyebrow": "Afterparty relay",
+        "titleBody": "Afterglow Heights Run should feel more intimate and elevated than the main festival board: terrace ramps, ferry spillover, observatory light, and a city already glowing below the finish.",
+        "routeCardTitle": "Hilltop afterglow over the sleeping city",
+        "routeCardBody": "This board is about the second reveal. The coast and causeway return, but the payoff climbs into balconies, hill roads, and the sense that the city is now scenery beneath you.",
+        "soundscapeTitle": "Ferry wash, terrace echo, observatory shimmer",
+        "soundscapeBody": "The soundstage here should feel closer and more nocturnal: tunnel wash on the lower line, terrace air on the upper line, then a softer, more elevated arrival than Mirador's main-stage charge.",
+        "destinationMood": "Hilltop afterparty reveal",
+        "destinationGlow": "Afterglow Heights should feel like the city's private encore: fewer crowds in frame, more balcony light, and a finish that lands as a late-night invitation instead of a headline spectacle."
+      },
+      "setpieces": [
+        {
+          "id": "ferry-underpass-bottleneck",
+          "distance": 7420,
+          "branch": "harbor",
+          "speaker": "Dispatch",
+          "tone": "radio",
+          "title": "Ferry spillover ahead",
+          "subtitle": "Service-road traffic is unloading across the marina tunnel. Read the gaps early and keep the cassette away from the barriers.",
+          "trafficPattern": [
+            {
+              "lane": 0,
+              "z": 0.84,
+              "speedFactor": 0.82,
+              "color": "#ffc27f",
+              "widthScale": 1.02
+            },
+            {
+              "lane": 0.72,
+              "z": 0.64,
+              "speedFactor": 0.86,
+              "color": "#7fe3ef",
+              "widthScale": 0.96
+            },
+            {
+              "lane": -0.72,
+              "z": 0.46,
+              "speedFactor": 0.9,
+              "color": "#ff9d74",
+              "widthScale": 0.98
+            }
+          ]
+        },
+        {
+          "id": "sera-observatory-squeeze",
+          "distance": 7480,
+          "branch": "neon",
+          "speaker": "Rival / Sera",
+          "tone": "rival",
+          "title": "Sera closes the overlook",
+          "subtitle": "Terrace traffic stacks across the ramp. Split the lane clean, keep the cassette alive, and do not brush the wall.",
+          "trafficPattern": [
+            {
+              "lane": 0.72,
+              "z": 0.86,
+              "speedFactor": 0.84,
+              "color": "#ff8f74",
+              "widthScale": 0.94
+            },
+            {
+              "lane": -0.72,
+              "z": 0.66,
+              "speedFactor": 0.88,
+              "color": "#ffd27b",
+              "widthScale": 0.98
+            },
+            {
+              "lane": 0,
+              "z": 0.5,
+              "speedFactor": 0.92,
+              "color": "#7fe8ff",
+              "widthScale": 1.02
+            },
+            {
+              "lane": 0.72,
+              "z": 0.34,
+              "speedFactor": 0.86,
+              "color": "#ff9dc7",
+              "widthScale": 0.96
+            }
+          ]
+        }
+      ],
+      "endings": {
+        "harbor": {
+          "destination": "Lumen Heights Marina Terrace",
+          "title": "Marina terrace arrival",
+          "subtitle": "You held the lower line through the ferries and amber gantries, then climbed into the afterparty lights with the cassette still warm.",
+          "postcard": "Lumen Heights Marina Terrace feels intimate and expensive in a different way: ferry decks below, hillside lights above, and an afterparty that sounds close before you can see it.",
+          "arrivalTitle": "The terrace opens above the ferry lane",
+          "arrivalSubtitle": "The last climb clears the marina and the afterparty unfolds in warm tiers of balcony light, rail reflections, and a crowd already turned toward the overlook.",
+          "festivalCue": "This payoff feels social and close-up. The cassette reaches the terrace and the whole lower route suddenly reads like a deliberate warm-up set.",
+          "soundtrackCue": "The chosen music pack lands with a softer afterglow here, as if the final bars are climbing the hillside with you."
+        },
+        "neon": {
+          "destination": "Lumen Heights Observatory Ring",
+          "title": "Observatory arrival",
+          "subtitle": "You took the upper terraces, kept the pace clean, and delivered the afterparty cassette straight into the observatory glow.",
+          "postcard": "Lumen Heights Observatory Ring lands as a hilltop postcard: terrace glass, amber beacons, and the city stretched below the overlook.",
+          "arrivalTitle": "The hilltop opens into an afterparty crown",
+          "arrivalSubtitle": "The terrace ramps spill into a circular overlook where the observatory lights, rooftop glass, and city afterglow feel like the whole climb was staged for this reveal.",
+          "festivalCue": "This payoff feels elevated and ceremonial. The city sits below you while the afterparty ring takes the cassette and turns the whole climb into a finish line.",
+          "soundtrackCue": "The chosen music pack lands crisp and panoramic here, as if the last melody is stretching across the whole skyline at once."
+        }
+      }
+    }
+  ],
+  "story_beats": [
+    {
+      "id": "dispatch-intro",
+      "distance": 420,
+      "branch": "all",
+      "speaker": "Dispatch",
+      "tone": "radio",
+      "title": "Festival tape is live cargo",
+      "subtitle": "Mirador Skyline wants the master reel before the stage lights cut. No heroics, just speed."
+    },
+    {
+      "id": "cassette-reminder",
+      "distance": 1580,
+      "branch": "all",
+      "speaker": "DJ Vale",
+      "tone": "radio",
+      "title": "Keep the music alive",
+      "subtitle": "The route picks the mood. Harbor stays intimate. Neon goes wide-screen."
+    },
+    {
+      "id": "rival-checkin",
+      "distance": 3240,
+      "branch": "all",
+      "speaker": "Rival / Sera",
+      "tone": "rival",
+      "title": "I can see your taillights from the bridge",
+      "subtitle": "Take the high road if you want the glamorous line. Take the docks if you can actually drive."
+    },
+    {
+      "id": "route-split-warning",
+      "distance": 4650,
+      "branch": "all",
+      "speaker": "Dispatch",
+      "tone": "radio",
+      "title": "Route split ahead",
+      "subtitle": "Harbor Slip keeps the skyline low and busy. Neon Express is cleaner, faster, and less forgiving."
+    },
+    {
+      "id": "harbor-scenic",
+      "distance": 6200,
+      "branch": "harbor",
+      "speaker": "DJ Vale",
+      "tone": "scenic",
+      "title": "Harbor Slip postcard",
+      "subtitle": "Container lights smear across the water while the cranes slice the moonlight above the docks."
+    },
+    {
+      "id": "rival-harbor",
+      "distance": 6580,
+      "branch": "harbor",
+      "speaker": "Rival / Sera",
+      "tone": "rival",
+      "title": "You chose the harder rhythm",
+      "subtitle": "Good. The dock road only looks calm until the brake lights stack and the lane disappears."
+    },
+    {
+      "id": "neon-scenic",
+      "distance": 6200,
+      "branch": "neon",
+      "speaker": "DJ Vale",
+      "tone": "scenic",
+      "title": "Neon Express postcard",
+      "subtitle": "The elevated line opens and the city turns into ribbons of glass, signs, and impossible blue light."
+    },
+    {
+      "id": "rival-neon",
+      "distance": 6620,
+      "branch": "neon",
+      "speaker": "Rival / Sera",
+      "tone": "rival",
+      "title": "That skyline lane suits you",
+      "subtitle": "Don't admire it too long. The express is generous right up until it isn't."
+    },
+    {
+      "id": "final-approach",
+      "distance": 8120,
+      "branch": "all",
+      "speaker": "Dispatch",
+      "tone": "radio",
+      "title": "Final approach",
+      "subtitle": "Stage lights are visible from the overpass. Keep the tape clean and the car pointed at Mirador."
+    },
+    {
+      "id": "afterglow-dispatch",
+      "distance": 420,
+      "branch": "all",
+      "speaker": "Dispatch",
+      "tone": "radio",
+      "title": "Afterparty cassette is moving",
+      "subtitle": "Main stage is breathing. Lumen Heights wants the afterparty reel before the observatory lights cycle down."
+    },
+    {
+      "id": "afterglow-dj",
+      "distance": 1580,
+      "branch": "all",
+      "speaker": "DJ Vale",
+      "tone": "radio",
+      "title": "Same city, different landing",
+      "subtitle": "Harbor keeps it warm and close. Crown Vista opens the whole hilltop like a reveal shot."
+    },
+    {
+      "id": "afterglow-rival",
+      "distance": 3240,
+      "branch": "all",
+      "speaker": "Rival / Sera",
+      "tone": "rival",
+      "title": "You still owe the city one more run",
+      "subtitle": "Anyone can hit the skyline once. The hilltop asks whether you can land the afterglow too."
+    },
+    {
+      "id": "afterglow-split-warning",
+      "distance": 4650,
+      "branch": "all",
+      "speaker": "Dispatch",
+      "tone": "radio",
+      "title": "Heights split ahead",
+      "subtitle": "Marina Underpass stays warmer and tighter. Crown Vista climbs cleaner, faster, and closer to the walls."
+    },
+    {
+      "id": "afterglow-marina-scenic",
+      "distance": 6200,
+      "branch": "harbor",
+      "speaker": "DJ Vale",
+      "tone": "scenic",
+      "title": "Marina Underpass postcard",
+      "subtitle": "Ferry windows drift above the service road while amber rails pull the whole lower line toward the hilltop."
+    },
+    {
+      "id": "afterglow-marina-rival",
+      "distance": 6580,
+      "branch": "harbor",
+      "speaker": "Rival / Sera",
+      "tone": "rival",
+      "title": "Warm route, sharp traffic",
+      "subtitle": "The marina line looks forgiving until the tunnel shadows close and the packs stop giving lane."
+    },
+    {
+      "id": "afterglow-crown-scenic",
+      "distance": 6200,
+      "branch": "neon",
+      "speaker": "DJ Vale",
+      "tone": "scenic",
+      "title": "Crown Vista postcard",
+      "subtitle": "Terrace glass catches the whole city at once and the observatory ring starts to read like a finish line in the sky."
+    },
+    {
+      "id": "afterglow-crown-rival",
+      "distance": 6620,
+      "branch": "neon",
+      "speaker": "Rival / Sera",
+      "tone": "rival",
+      "title": "High line, no excuses",
+      "subtitle": "You wanted the overlook. Keep it clean, because those terrace walls turn tiny mistakes into a full reset."
+    },
+    {
+      "id": "afterglow-final-approach",
+      "distance": 8120,
+      "branch": "all",
+      "speaker": "Dispatch",
+      "tone": "radio",
+      "title": "Observatory final",
+      "subtitle": "Hilltop lights are live. Keep the cassette steady and let the afterparty reveal land on time."
+    }
+  ]
+}

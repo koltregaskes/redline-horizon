@@ -1,0 +1,119 @@
+{
+  "id": "azure-coast-run",
+  "title": "Azure Coast Run",
+  "strapline": "Coast road to skyline stage",
+  "story": "Carry the Mirador Skyline festival master tape from the coast road to the city before the last gate closes.",
+  "totalDistance": 9200,
+  "branchDistance": 5050,
+  "branchHintDistance": 800,
+  "checkpoints": [
+    {
+      "distance": 1800,
+      "bonus": 14,
+      "label": "Azure Coast Gate"
+    },
+    {
+      "distance": 3600,
+      "bonus": 13,
+      "label": "Causeway Midpoint"
+    },
+    {
+      "distance": 5600,
+      "bonus": 12,
+      "label": "Split Recovery Gate"
+    },
+    {
+      "distance": 7600,
+      "bonus": 11,
+      "label": "Skyline Entry Gate"
+    }
+  ],
+  "branches": [
+    {
+      "id": "harbor",
+      "name": "Harbor Slip",
+      "strapline": "Low road, dock lights, tighter rhythm",
+      "description": "The scenic lower line. It ducks toward cranes, ferry lights, and denser traffic pockets before the skyline opens up.",
+      "risk": "Higher weave density, slightly calmer curves.",
+      "accent": "#79f0ff",
+      "scenicMomentTitle": "Dock light glide",
+      "scenicMomentSubtitle": "Low road postcard under cranes and stacked brake lights."
+    },
+    {
+      "id": "neon",
+      "name": "Neon Express",
+      "strapline": "High road, open throttle, city glow",
+      "description": "The glamorous fast route. Broader sweepers, heavier speed, and a cleaner charge into the financial district.",
+      "risk": "Faster flow, wider curves, larger collision penalties at speed.",
+      "accent": "#ff70b3",
+      "scenicMomentTitle": "Skyline ribbon road",
+      "scenicMomentSubtitle": "High road postcard with billboards, glass, and blue neon haze."
+    }
+  ],
+  "stageOrder": [
+    {
+      "stageId": "azure-coast",
+      "branch": "all"
+    },
+    {
+      "stageId": "mirage-causeway",
+      "branch": "all"
+    },
+    {
+      "stageId": "harbor-slip",
+      "branch": "harbor"
+    },
+    {
+      "stageId": "neon-express",
+      "branch": "neon"
+    },
+    {
+      "stageId": "skyline-finish",
+      "branch": "all"
+    }
+  ],
+  "storyBeatIds": [
+    "dispatch-intro",
+    "cassette-reminder",
+    "rival-checkin",
+    "route-split-warning",
+    "harbor-scenic",
+    "rival-harbor",
+    "neon-scenic",
+    "rival-neon",
+    "final-approach"
+  ],
+  "presentation": {
+    "accent": "#ffd46d",
+    "titleEyebrow": "Festival drop",
+    "titleBody": "Azure Coast Run should feel like the expensive postcard version of the city delivery fantasy: warm coast start, clean split, and a glamorous arrival under the Mirador lights.",
+    "routeCardTitle": "Golden coast into city glass",
+    "routeCardBody": "This board sells the original Redline fantasy in one pass: palms and sea glare first, then a choice between dock rhythm and neon altitude before Mirador opens ahead.",
+    "soundscapeTitle": "Warm wind, brake-light hiss, skyline bloom",
+    "soundscapeBody": "The road mood here is seaside wash into sodium lamps and finally mirrored glass. It should feel like the soundtrack is chasing the horizon with you, not sitting underneath it.",
+    "destinationMood": "Premium festival arrival",
+    "destinationGlow": "Even before the finish, Azure Coast Run should read as a glossy city-night promise with enough warmth to keep the whole sprint romantic rather than severe."
+  },
+  "endings": {
+    "harbor": {
+      "destination": "Mirador Harbor Promenade",
+      "title": "Harbor arrival",
+      "subtitle": "You slipped under the cranes, held the dock rhythm, and delivered the tape with the skyline rising above the water.",
+      "postcard": "Mirador Harbor Promenade feels intimate and cinematic: ferry lights below, skyline above, festival glow waiting at the edge of the docks.",
+      "arrivalTitle": "Festival barges answer the dock line",
+      "arrivalSubtitle": "The last gate opens over the harbor road and the skyline stage answers with reflections off the water, crane lights, and a crowd already leaning over the railings.",
+      "festivalCue": "The promenade crowd sees the tape van arrive first, then your taillights. The whole low road feels like it paid off at once.",
+      "soundtrackCue": "The selected music pack lands warm and close here, like the final bars are echoing between warehouses and the festival deck."
+    },
+    "neon": {
+      "destination": "Mirador Skyline Deck",
+      "title": "Express arrival",
+      "subtitle": "You took the elevated line, kept the speed honest, and delivered the tape straight into the city lights.",
+      "postcard": "Mirador Skyline Deck lands like a premium postcard: glass towers, cold neon, and the stage district opening under the expressway.",
+      "arrivalTitle": "Skyline lights open like a stage reveal",
+      "arrivalSubtitle": "The express spills you straight into the festival district: mirrored towers, overpass glow, and a clean final sightline to the Mirador deck.",
+      "festivalCue": "This payoff feels widescreen and expensive. The city does not just receive the tape; it seems to flare on in response.",
+      "soundtrackCue": "The chosen music pack hits hardest here, where the last melody feels like it is syncing to signs, glass, and the final tower reflections."
+    }
+  }
+}
