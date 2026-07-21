@@ -17,6 +17,8 @@ export class RoadRenderer {
   private width = 1280;
   private height = 720;
   private grainPattern: Array<{ x: number; y: number; w: number; h: number; alpha: number }> = [];
+  private skyImg: HTMLImageElement | null = null;
+  private skyReady = false;
 
   constructor(canvas: HTMLCanvasElement) {
     const context = canvas.getContext("2d");
@@ -26,6 +28,11 @@ export class RoadRenderer {
 
     this.canvas = canvas;
     this.ctx = context;
+
+    const skyImg = new Image();
+    skyImg.onload = () => { this.skyReady = true; };
+    skyImg.src = new URL("assets/img/sky.jpg", document.baseURI).href;
+    this.skyImg = skyImg;
   }
 
   resize(width: number, height: number, dpr: number) {
@@ -49,7 +56,7 @@ export class RoadRenderer {
       this.ctx.translate(shakeX, shakeY);
     }
 
-    this.drawSky(palette, horizonY);
+    this.drawSky(snapshot, palette, horizonY);
     this.drawBackdrop(snapshot, palette, horizonY);
     this.drawRoad(snapshot, palette, horizonY);
     this.drawRoadside(snapshot, palette, horizonY);
@@ -66,7 +73,18 @@ export class RoadRenderer {
     this.ctx.restore();
   }
 
-  private drawSky(palette: ThemePalette, horizonY: number) {
+  private drawSky(snapshot: RenderSnapshot, palette: ThemePalette, horizonY: number) {
+    if (this.skyReady && this.skyImg) {
+      const skyBottom = horizonY + this.height * 0.05;
+      const overscan = this.width * 0.18;
+      const drawW = this.width + overscan * 2;
+      const drift = Math.sin(snapshot.distance * 0.00004) * overscan * 0.6;
+      const curve = clamp(snapshot.roadCurve * 40, -overscan, overscan);
+      const x = -overscan + clamp(drift - curve, -overscan, overscan);
+      this.ctx.drawImage(this.skyImg, x, 0, drawW, skyBottom);
+      return;
+    }
+
     const sky = this.ctx.createLinearGradient(0, 0, 0, horizonY + this.height * 0.18);
     sky.addColorStop(0, palette.skyTop);
     sky.addColorStop(0.45, palette.skyMid);
@@ -90,25 +108,27 @@ export class RoadRenderer {
   }
 
   private drawBackdrop(snapshot: RenderSnapshot, palette: ThemePalette, horizonY: number) {
-    this.ctx.fillStyle = palette.farSilhouette;
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, horizonY);
-    for (let index = 0; index <= 8; index += 1) {
-      const x = (this.width / 8) * index;
-      const wave =
-        Math.sin(index * 0.9 + snapshot.distance * 0.00018) * 24 +
-        Math.cos(index * 1.1 + snapshot.distance * 0.00012) * 18;
-      const y = horizonY - 36 - wave - snapshot.segment.skyline * 24;
-      this.ctx.lineTo(x, y);
-    }
-    this.ctx.lineTo(this.width, this.height);
-    this.ctx.lineTo(0, this.height);
-    this.ctx.closePath();
-    this.ctx.fill();
+    if (!this.skyReady) {
+      this.ctx.fillStyle = palette.farSilhouette;
+      this.ctx.beginPath();
+      this.ctx.moveTo(0, horizonY);
+      for (let index = 0; index <= 8; index += 1) {
+        const x = (this.width / 8) * index;
+        const wave =
+          Math.sin(index * 0.9 + snapshot.distance * 0.00018) * 24 +
+          Math.cos(index * 1.1 + snapshot.distance * 0.00012) * 18;
+        const y = horizonY - 36 - wave - snapshot.segment.skyline * 24;
+        this.ctx.lineTo(x, y);
+      }
+      this.ctx.lineTo(this.width, this.height);
+      this.ctx.lineTo(0, this.height);
+      this.ctx.closePath();
+      this.ctx.fill();
 
-    if (snapshot.segment.scenery !== "neon") {
-      this.ctx.fillStyle = palette.sea;
-      this.ctx.fillRect(0, horizonY + 8, this.width, this.height * 0.22);
+      if (snapshot.segment.scenery !== "neon") {
+        this.ctx.fillStyle = palette.sea;
+        this.ctx.fillRect(0, horizonY + 8, this.width, this.height * 0.22);
+      }
     }
 
     this.ctx.fillStyle = palette.nearSilhouette;

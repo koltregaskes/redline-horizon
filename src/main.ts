@@ -1,5 +1,10 @@
 import "./styles.css";
-import { crazyGameplayStart, crazyGameplayStop, crazyHappytime } from "./integrations/crazygames";
+import {
+  crazyGameplayStart,
+  crazyGameplayStop,
+  crazyHappytime,
+  crazyInitialize,
+} from "./integrations/crazygames";
 import { InputController } from "./app/input-controller";
 import {
   parseReviewModeConfig,
@@ -316,6 +321,7 @@ class RedlineHorizonApp {
     this.overlayLayer = this.query("#overlay-layer");
     this.renderer = new RoadRenderer(this.canvas);
     this.input = new InputController(this.query("#touch-controls"));
+    void crazyInitialize();
 
     this.bindUiEvents();
     this.applyProfile();

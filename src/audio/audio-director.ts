@@ -22,6 +22,7 @@ export class AudioDirector {
   private sequencerId: number | null = null;
   private lowTimeTriggered = false;
   private step = 0;
+  private musicTrack: HTMLAudioElement | null = null;
   private options: AppOptions = {
     musicEnabled: true,
     effectsEnabled: true,
@@ -49,6 +50,7 @@ export class AudioDirector {
 
     this.ensureEngineVoice();
     this.applyOptionMix();
+    this.startRealMusic();
   }
 
   setOptions(options: AppOptions) {
@@ -189,7 +191,21 @@ export class AudioDirector {
     this.playTone(523.25, 0.1, "triangle", 0.032);
   }
 
+  private startRealMusic() {
+    if (!this.musicTrack) {
+      this.musicTrack = new Audio(new URL("assets/audio/music-cruise.mp3", document.baseURI).href);
+      this.musicTrack.loop = true;
+      this.musicTrack.preload = "auto";
+    }
+    this.musicTrack.volume = this.options.musicEnabled ? 0.6 : 0;
+    if (this.options.musicEnabled) {
+      void this.musicTrack.play().catch(() => {});
+    }
+  }
+
   private startSequencer() {
+    // Real streamed music bed (assets/audio/music-cruise.mp3) replaces the synth sequencer.
+    if (this.musicTrack) return;
     if (!this.context || !this.currentMusicPack || !this.musicBus) {
       return;
     }
@@ -288,6 +304,11 @@ export class AudioDirector {
       this.options.effectsEnabled ? 0.18 : 0,
       this.context.currentTime + 0.08,
     );
+    if (this.musicTrack) {
+      this.musicTrack.volume = this.options.musicEnabled ? 0.6 : 0;
+      if (this.options.musicEnabled) void this.musicTrack.play().catch(() => {});
+      else this.musicTrack.pause();
+    }
   }
 
   private playPatternSting(pattern: number[], rootHz: number, gainAmount: number) {

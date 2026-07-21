@@ -9,12 +9,13 @@
     "export:data": "tsx scripts/export-content.ts",
     "review:pack": "npm run build && tsx scripts/review-pack.ts",
     "smoke:simulation": "tsx scripts/smoke-simulation.ts",
+    "verify:crazygames": "npm run build && tsx scripts/verify-crazygames-integration.ts",
     "preview": "vite preview"
   },
   "devDependencies": {
     "playwright": "^1.59.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "vite": "^7.1.12"
+    "vite": "^8.0.16"
   }
 }

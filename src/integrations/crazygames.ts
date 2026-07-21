@@ -32,6 +32,7 @@ interface CrazyGamesAdModule {
 }
 
 interface CrazyGamesSDK {
+  init?: () => Promise<void> | void;
   game?: CrazyGamesGameModule;
   ad?: CrazyGamesAdModule;
 }
@@ -47,39 +48,71 @@ declare global {
 }
 
 let gameplayActive = false;
+let initialized = false;
+let initialization: Promise<boolean> | null = null;
 
 function getSdk(): CrazyGamesSDK | null {
   if (typeof window === "undefined") return null;
   return window.CrazyGames?.SDK ?? null;
 }
 
+export function crazyInitialize(): Promise<boolean> {
+  const sdk = getSdk();
+  if (!sdk) return Promise.resolve(false);
+  if (initialized) return Promise.resolve(true);
+  if (initialization) return initialization;
+
+  initialization = Promise.resolve()
+    .then(() => sdk.init?.())
+    .then(() => {
+      initialized = true;
+      return true;
+    })
+    .catch((error) => {
+      initialization = null;
+      console.warn("[crazygames] init failed:", error);
+      return false;
+    });
+
+  return initialization;
+}
+
 export function crazyGameplayStart(): void {
   if (gameplayActive) return;
   gameplayActive = true;
-  try {
-    getSdk()?.game?.gameplayStart?.();
-  } catch (error) {
-    // SDK errors must never break the game itself.
-    console.warn("[crazygames] gameplayStart failed:", error);
-  }
+  void crazyInitialize().then((ready) => {
+    if (!ready || !gameplayActive) return;
+    try {
+      getSdk()?.game?.gameplayStart?.();
+    } catch (error) {
+      // SDK errors must never break the game itself.
+      console.warn("[crazygames] gameplayStart failed:", error);
+    }
+  });
 }
 
 export function crazyGameplayStop(): void {
   if (!gameplayActive) return;
   gameplayActive = false;
-  try {
-    getSdk()?.game?.gameplayStop?.();
-  } catch (error) {
-    console.warn("[crazygames] gameplayStop failed:", error);
-  }
+  void crazyInitialize().then((ready) => {
+    if (!ready) return;
+    try {
+      getSdk()?.game?.gameplayStop?.();
+    } catch (error) {
+      console.warn("[crazygames] gameplayStop failed:", error);
+    }
+  });
 }
 
 export function crazyHappytime(): void {
-  try {
-    getSdk()?.game?.happytime?.();
-  } catch (error) {
-    console.warn("[crazygames] happytime failed:", error);
-  }
+  void crazyInitialize().then((ready) => {
+    if (!ready) return;
+    try {
+      getSdk()?.game?.happytime?.();
+    } catch (error) {
+      console.warn("[crazygames] happytime failed:", error);
+    }
+  });
 }
 
 /**
@@ -90,28 +123,37 @@ export function crazyHappytime(): void {
  * and always pause audio/gameplay around the request.
  */
 export function crazyMidgameAd(onComplete: () => void): void {
-  const ad = getSdk()?.ad;
-  if (!ad?.requestAd) {
-    onComplete();
-    return;
-  }
   let resolved = false;
   const finish = () => {
     if (resolved) return;
     resolved = true;
     onComplete();
   };
-  try {
-    ad.requestAd("midgame", {
-      adFinished: finish,
-      adError: finish,
-    });
-    // Safety net: never wait more than 30s for the SDK callback.
-    setTimeout(finish, 30_000);
-  } catch (error) {
-    console.warn("[crazygames] midgame ad failed:", error);
-    finish();
-  }
+  void crazyInitialize().then((ready) => {
+    const ad = ready ? getSdk()?.ad : null;
+    if (!ad?.requestAd) {
+      finish();
+      return;
+    }
+
+    try {
+      const timeout = setTimeout(finish, 30_000);
+      ad.requestAd("midgame", {
+        adFinished: () => {
+          clearTimeout(timeout);
+          finish();
+        },
+        adError: () => {
+          clearTimeout(timeout);
+          finish();
+        },
+      });
+      // Safety net: never wait more than 30s for the SDK callback.
+    } catch (error) {
+      console.warn("[crazygames] midgame ad failed:", error);
+      finish();
+    }
+  });
 }
 
 export function isCrazyGamesEnvironment(): boolean {
