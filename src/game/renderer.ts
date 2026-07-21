@@ -1,4 +1,5 @@
 import { clamp } from "./config";
+import { getPlayerSprite, loadCarSprites, pickTrafficSprite } from "./car-sprites";
 import type {
   RenderSnapshot,
   SceneryMode,
@@ -33,6 +34,8 @@ export class RoadRenderer {
     skyImg.onload = () => { this.skyReady = true; };
     skyImg.src = new URL("assets/img/sky.jpg", document.baseURI).href;
     this.skyImg = skyImg;
+
+    loadCarSprites();
   }
 
   resize(width: number, height: number, dpr: number) {
@@ -433,6 +436,26 @@ export class RoadRenderer {
       const x = laneCenter - width / 2;
       const y = geometry.y - height;
 
+      const sprite = pickTrafficSprite(car.color);
+      if (sprite) {
+        // Keep the baked render's aspect so vehicles do not squash as the road
+        // scales them; anchor the wheels to the road contact point.
+        const drawHeight = width / sprite.aspect;
+        const drawY = geometry.y - drawHeight;
+        this.ctx.fillStyle = this.withAlpha("#05070d", 0.3);
+        this.ctx.beginPath();
+        this.ctx.ellipse(laneCenter, geometry.y - 2, width * 0.46, Math.max(2, drawHeight * 0.09), 0, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.drawImage(sprite.image, x, drawY, width, drawHeight);
+
+        if (car.headlights && snapshot.segment.nightLevel > 0.4) {
+          this.ctx.fillStyle = this.withAlpha("#ff6a4a", 0.5);
+          this.ctx.fillRect(x + width * 0.1, drawY + drawHeight * 0.5, width * 0.16, drawHeight * 0.07);
+          this.ctx.fillRect(x + width * 0.74, drawY + drawHeight * 0.5, width * 0.16, drawHeight * 0.07);
+        }
+        continue;
+      }
+
       this.ctx.fillStyle = this.withAlpha(car.color, 0.22);
       this.ctx.fillRect(x, geometry.y - 6, width, 10 + depth * 10);
       this.ctx.fillStyle = car.color;
@@ -454,6 +477,20 @@ export class RoadRenderer {
   private drawPlayer(snapshot: RenderSnapshot, palette: ThemePalette) {
     const baseY = this.height - 132;
     const x = this.width / 2 + snapshot.lateral * 210;
+
+    const sprite = getPlayerSprite();
+    if (sprite) {
+      const drawWidth = 190;
+      const drawHeight = drawWidth / sprite.aspect;
+      const drawY = baseY + 82 - drawHeight;
+      this.ctx.fillStyle = this.withAlpha("#05070d", 0.34);
+      this.ctx.beginPath();
+      this.ctx.ellipse(x, baseY + 80, drawWidth * 0.44, drawHeight * 0.13, 0, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.ctx.drawImage(sprite.image, x - drawWidth / 2, drawY, drawWidth, drawHeight);
+      return;
+    }
+
     this.ctx.fillStyle = this.withAlpha(snapshot.playerBodyColor, 0.22);
     this.ctx.fillRect(x - 48, baseY + 72, 96, 18);
     this.ctx.fillStyle = snapshot.playerBodyColor;
