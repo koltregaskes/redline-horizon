@@ -1,5 +1,15 @@
 import { clamp } from "./config";
 import { getPlayerSprite, loadCarSprites, pickTrafficSprite } from "./car-sprites";
+import {
+  BILLBOARD_ASPECT,
+  BillboardFaces,
+  SKYLINE_MAX_PX,
+  WINDOW_ALPHAS,
+  WINDOW_COLORS,
+  buildSkylineLayers,
+  getSignFlatColor,
+  type SkylineLayer,
+} from "./roadside-art";
 import type {
   RenderSnapshot,
   SceneryMode,
@@ -20,6 +30,9 @@ export class RoadRenderer {
   private grainPattern: Array<{ x: number; y: number; w: number; h: number; alpha: number }> = [];
   private skyImg: HTMLImageElement | null = null;
   private skyReady = false;
+  private readonly billboardFaces = new BillboardFaces();
+  private skylineLayers: SkylineLayer[] = [];
+  private readonly skylineXs: number[] = [];
 
   constructor(canvas: HTMLCanvasElement) {
     const context = canvas.getContext("2d");
@@ -45,6 +58,7 @@ export class RoadRenderer {
     this.canvas.height = Math.round(this.height * dpr);
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     this.rebuildGrainPattern();
+    this.skylineLayers = buildSkylineLayers(this.width, this.height);
   }
 
   render(snapshot: RenderSnapshot) {
@@ -162,24 +176,91 @@ export class RoadRenderer {
       return;
     }
 
-    const buildingCount = 10 + Math.round(skylineStrength * 10);
-    for (let index = 0; index < buildingCount; index += 1) {
-      const width = 28 + (index % 4) * 14 + skylineStrength * 18;
-      const height = 40 + (index % 5) * 24 + skylineStrength * 90;
-      const x = (index / buildingCount) * this.width + (index % 3) * 18;
-      const y = horizonY + 16 - height;
-      this.ctx.fillStyle = this.withAlpha(palette.nearSilhouette, 0.9);
-      this.ctx.fillRect(x, y, width, height);
+    // Three layers, far to near. Each far layer gets a haze wash before the next
+    // is drawn, so the city reads with depth. Window sets are fixed per building.
+    const ctx = this.ctx;
+    const scale = this.height / 720;
+    const maxPx = (60 + skylineStrength * (SKYLINE_MAX_PX - 60)) * scale;
+    const span = this.width * 1.3;
+    const lead = (span - this.width) / 2;
+    const curveShift = clamp(snapshot.roadCurve * 60, -80, 80);
+    const lit = skylineStrength > 0.36;
+    const xs = this.skylineXs;
+    const lastLayer = this.skylineLayers.length - 1;
 
-      if (skylineStrength > 0.36) {
-        this.ctx.fillStyle = this.withAlpha(palette.cityLight, 0.75);
-        for (let row = 0; row < 6; row += 1) {
-          const windowY = y + 8 + row * 12;
-          this.ctx.fillRect(x + 6, windowY, 4, 5);
-          this.ctx.fillRect(x + width - 10, windowY + 2, 3, 4);
+    this.skylineLayers.forEach((layer, layerIndex) => {
+      const base = horizonY + layer.baseOffset;
+      const shift = curveShift * layer.parallax;
+      xs.length = 0;
+
+      ctx.fillStyle = palette.nearSilhouette;
+      for (const building of layer.buildings) {
+        const x = (((building.u * span + shift) % span) + span) % span - lead;
+        xs.push(x);
+        const w = building.width;
+        const h = building.height * maxPx * layer.heightScale;
+        const top = base - h;
+        ctx.fillRect(x, top, w, h);
+        if (building.roof === 1) {
+          ctx.fillRect(x + w * 0.18, top - h * 0.07, w * 0.64, h * 0.07 + 1);
+        } else if (building.roof === 2) {
+          ctx.fillRect(x + w * 0.5 - scale, top - h * 0.16, 2 * scale, h * 0.16 + 1);
+        } else if (building.roof === 3) {
+          ctx.beginPath();
+          ctx.moveTo(x, top + 1);
+          ctx.lineTo(x + w, top - w * 0.28);
+          ctx.lineTo(x + w, top + 1);
+          ctx.closePath();
+          ctx.fill();
         }
       }
-    }
+
+      if (lit) {
+        const dim = layerIndex === 0 ? 0.55 : layerIndex === 1 ? 0.8 : 1;
+        layer.windows.forEach((bucket, bucketIndex) => {
+          const colour = WINDOW_COLORS[Math.floor(bucketIndex / WINDOW_ALPHAS.length)];
+          const alpha = WINDOW_ALPHAS[bucketIndex % WINDOW_ALPHAS.length];
+          ctx.fillStyle = this.withAlpha(colour, alpha * dim);
+          for (const win of bucket) {
+            const building = layer.buildings[win.building];
+            const h = building.height * maxPx * layer.heightScale;
+            const windowY = base - win.rowFromBase * layer.pitchY;
+            if (windowY - layer.windowH < base - h + layer.pitchY * 0.6) {
+              continue;
+            }
+            const x = xs[win.building] + win.dx;
+            if (x < -8 || x > this.width) {
+              continue;
+            }
+            ctx.fillRect(x, windowY - layer.windowH, layer.windowW, layer.windowH);
+          }
+        });
+
+        // Aircraft warning lights on the antenna roofs of the near layer.
+        if (layerIndex === lastLayer) {
+          ctx.fillStyle = this.withAlpha("#ff5a6a", 0.9);
+          layer.buildings.forEach((building, index) => {
+            if (building.roof === 2) {
+              const h = building.height * maxPx * layer.heightScale;
+              ctx.fillRect(
+                xs[index] + building.width * 0.5 - 1.5 * scale,
+                base - h * 1.16 - 2 * scale,
+                3 * scale,
+                3 * scale,
+              );
+            }
+          });
+        }
+      }
+
+      if (layerIndex < lastLayer) {
+        const haze = ctx.createLinearGradient(0, base - maxPx, 0, base);
+        haze.addColorStop(0, this.withAlpha(palette.fog, 0));
+        haze.addColorStop(1, this.withAlpha(palette.fog, 0.3));
+        ctx.fillStyle = haze;
+        ctx.fillRect(0, base - maxPx, this.width, maxPx);
+      }
+    });
   }
 
   private drawRoad(snapshot: RenderSnapshot, palette: ThemePalette, horizonY: number) {
@@ -262,27 +343,32 @@ export class RoadRenderer {
   private drawRoadside(snapshot: RenderSnapshot, palette: ThemePalette, horizonY: number) {
     const scenery = snapshot.transition < 0.55 ? snapshot.segment.scenery : snapshot.nextSegment.scenery;
 
+    // A roadside object keeps the same slot while it travels towards the camera.
+    const slotBase = Math.floor(snapshot.distance * 0.02);
     for (let index = 0; index < 15; index += 1) {
       const depth = (index + (snapshot.distance * 0.02 % 1)) / 15;
+      const slot = index - slotBase;
       const geometry = this.getRoadGeometry(depth, snapshot.roadCurve, snapshot.lateral, horizonY);
       const shoulder = geometry.roadHalf + 40 + depth * 110;
       const leftX = geometry.center - shoulder;
       const rightX = geometry.center + shoulder;
-      this.drawRoadsideObject(scenery, leftX, geometry.y, depth, false, palette);
-      this.drawRoadsideObject(scenery, rightX, geometry.y, depth, true, palette);
+      this.drawRoadsideObject(scenery, leftX, geometry.y, depth, false, palette, slot * 2);
+      this.drawRoadsideObject(scenery, rightX, geometry.y, depth, true, palette, slot * 2 + 1);
     }
   }
 
   private drawBillboards(snapshot: RenderSnapshot, palette: ThemePalette, horizonY: number) {
+    const slotBase = Math.floor(snapshot.distance * 0.01);
     for (let index = 0; index < 8; index += 1) {
       const depth = (index + (snapshot.distance * 0.01 % 1)) / 8;
+      const slot = index - slotBase;
       const geometry = this.getRoadGeometry(depth, snapshot.roadCurve, snapshot.lateral, horizonY);
-      const signWidth = 30 + depth * 68;
-      const signHeight = 18 + depth * 38;
+      const signWidth = 34 + depth * 110;
+      const signHeight = signWidth / BILLBOARD_ASPECT;
       const leftX = geometry.center - geometry.roadHalf - (36 + depth * 90);
       const rightX = geometry.center + geometry.roadHalf + (36 + depth * 90);
-      this.drawBillboardPanel(snapshot.segment.billboardSet, leftX, geometry.y, signWidth, signHeight, false, palette);
-      this.drawBillboardPanel(snapshot.segment.billboardSet, rightX, geometry.y, signWidth, signHeight, true, palette);
+      this.drawBillboardPanel(snapshot.segment.billboardSet, leftX, geometry.y, signWidth, signHeight, false, palette, slot * 2);
+      this.drawBillboardPanel(snapshot.segment.billboardSet, rightX, geometry.y, signWidth, signHeight, true, palette, slot * 2 + 1);
     }
   }
 
@@ -293,25 +379,12 @@ export class RoadRenderer {
     depth: number,
     rightSide: boolean,
     palette: ThemePalette,
+    slot: number,
   ) {
     const scale = 0.45 + depth * 1.4;
 
     if (scenery === "palms") {
-      this.ctx.fillStyle = "#6d4b2d";
-      this.ctx.fillRect(x - 3 * scale, y - 42 * scale, 6 * scale, 42 * scale);
-      this.ctx.fillStyle = rightSide ? palette.roadsidePrimary : palette.roadsideSecondary;
-      this.ctx.beginPath();
-      this.ctx.moveTo(x, y - 52 * scale);
-      this.ctx.lineTo(x - 24 * scale, y - 28 * scale);
-      this.ctx.lineTo(x + 20 * scale, y - 24 * scale);
-      this.ctx.closePath();
-      this.ctx.fill();
-      this.ctx.beginPath();
-      this.ctx.moveTo(x, y - 52 * scale);
-      this.ctx.lineTo(x - 18 * scale, y - 46 * scale);
-      this.ctx.lineTo(x + 18 * scale, y - 18 * scale);
-      this.ctx.closePath();
-      this.ctx.fill();
+      this.drawPalm(x, y, scale, rightSide, palette, slot);
       return;
     }
 
@@ -340,12 +413,101 @@ export class RoadRenderer {
       return;
     }
 
-    this.ctx.fillStyle = this.withAlpha(palette.nearSilhouette, 0.92);
-    this.ctx.fillRect(x - 16 * scale, y - 46 * scale, 32 * scale, 46 * scale);
-    this.ctx.fillStyle = palette.roadsidePrimary;
-    this.ctx.fillRect(x - 20 * scale, y - 28 * scale, 40 * scale, 10 * scale);
-    this.ctx.fillStyle = this.withAlpha(palette.roadsideSecondary, 0.92);
-    this.ctx.fillRect(x - 10 * scale, y - 18 * scale, 20 * scale, 4 * scale);
+    this.drawNeonStreetPiece(x, y, scale, rightSide, palette, slot);
+  }
+
+  private drawPalm(x: number, y: number, scale: number, rightSide: boolean, palette: ThemePalette, slot: number) {
+    const ctx = this.ctx;
+    const vary = this.seededUnit(slot * 3 + 7);
+    const lean = (rightSide ? 1 : -1) * (0.5 + vary * 0.7);
+    const height = (44 + this.seededUnit(slot * 5 + 3) * 16) * scale;
+    const topX = x + lean * 14 * scale;
+    const topY = y - height;
+
+    // Curved, tapering trunk: a dark core with a lit edge.
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "#4e321d";
+    ctx.lineWidth = Math.max(1.5, 5 * scale);
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.quadraticCurveTo(x + lean * 1.5 * scale, y - height * 0.55, topX, topY);
+    ctx.stroke();
+    if (scale > 0.7) {
+      ctx.strokeStyle = "#8a5d36";
+      ctx.lineWidth = 1.4 * scale;
+      ctx.beginPath();
+      ctx.moveTo(x + 1.6 * scale, y);
+      ctx.quadraticCurveTo(x + lean * 1.5 * scale + 1.4 * scale, y - height * 0.55, topX + scale, topY + 2 * scale);
+      ctx.stroke();
+    }
+    ctx.lineCap = "butt";
+
+    // Fronds: drooping leaf shapes around the crown, back ones darker.
+    const fronds = scale > 0.7 ? 8 : 5;
+    for (let pass = 0; pass < 2; pass += 1) {
+      ctx.fillStyle = pass === 0 ? this.withAlpha(palette.roadsideSecondary, 0.95) : palette.roadsidePrimary;
+      for (let k = pass; k < fronds; k += 2) {
+        const angle = -Math.PI - 0.35 + (k / (fronds - 1)) * (Math.PI + 0.7) + lean * 0.12;
+        const length = (20 + (((k + slot) % 3) + 3) % 3 * 4) * scale;
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        const tipX = topX + cos * length;
+        const tipY = topY + sin * length * 0.5 + length * 0.42;
+        const upperX = topX + cos * length * 0.5;
+        const upperY = topY + sin * length * 0.5 - length * 0.3;
+        ctx.beginPath();
+        ctx.moveTo(topX, topY);
+        ctx.quadraticCurveTo(upperX, upperY, tipX, tipY);
+        ctx.quadraticCurveTo(upperX, upperY + length * 0.24, topX, topY + 1.5 * scale);
+        ctx.fill();
+      }
+    }
+
+    if (scale > 0.8) {
+      ctx.fillStyle = "#3a2614";
+      ctx.beginPath();
+      ctx.arc(topX - 2 * scale, topY + 2.5 * scale, 2.2 * scale, 0, Math.PI * 2);
+      ctx.arc(topX + 2 * scale, topY + 3 * scale, 2.2 * scale, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  private drawNeonStreetPiece(
+    x: number,
+    y: number,
+    scale: number,
+    rightSide: boolean,
+    palette: ThemePalette,
+    slot: number,
+  ) {
+    const ctx = this.ctx;
+    const towardRoad = rightSide ? -1 : 1;
+
+    if (((slot % 3) + 3) % 3 === 2) {
+      // Neon pylon: a dark column with a glowing tube and a lit cap.
+      ctx.fillStyle = this.withAlpha(palette.nearSilhouette, 0.95);
+      ctx.fillRect(x - 6 * scale, y - 56 * scale, 12 * scale, 56 * scale);
+      ctx.fillStyle = this.withAlpha(palette.roadsideSecondary, 0.22);
+      ctx.fillRect(x - 9 * scale, y - 54 * scale, 18 * scale, 46 * scale);
+      ctx.fillStyle = palette.roadsideSecondary;
+      ctx.fillRect(x - 1.5 * scale, y - 52 * scale, 3 * scale, 42 * scale);
+      ctx.fillStyle = palette.roadsidePrimary;
+      ctx.fillRect(x - 7 * scale, y - 60 * scale, 14 * scale, 4 * scale);
+      return;
+    }
+
+    // Street lamp: pole, arm over the road, lamp head and a soft pool of light.
+    const poleTop = y - 66 * scale;
+    const headX = x + towardRoad * 18 * scale;
+    ctx.fillStyle = this.withAlpha(palette.roadsidePrimary, 0.3);
+    ctx.beginPath();
+    ctx.ellipse(headX, poleTop + 5 * scale, 9 * scale, 5 * scale, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = this.withAlpha(palette.nearSilhouette, 0.95);
+    ctx.fillRect(x - 1.5 * scale, poleTop, 3 * scale, 66 * scale);
+    ctx.fillRect(x, poleTop, towardRoad * 19 * scale, 2.4 * scale);
+    ctx.fillStyle = palette.roadsidePrimary;
+    ctx.fillRect(headX - 5 * scale, poleTop + 1.5 * scale, 10 * scale, 2.6 * scale);
   }
 
   private drawBillboardPanel(
@@ -356,36 +518,28 @@ export class RoadRenderer {
     height: number,
     rightSide: boolean,
     palette: ThemePalette,
+    slot: number,
   ) {
-    const postHeight = height * 1.8;
+    const ctx = this.ctx;
+    const postHeight = height * 1.6;
     const anchorX = rightSide ? x : x - width;
-    this.ctx.fillStyle = this.withAlpha(palette.nearSilhouette, 0.85);
-    this.ctx.fillRect(anchorX + width * 0.45, y - postHeight, width * 0.1, postHeight);
+    const bottom = y - postHeight;
+    const top = bottom - height;
 
-    const primary =
-      billboardSet === "luxury-neon"
-        ? "#8ddfff"
-        : billboardSet === "festival-posters"
-          ? "#ffd66d"
-          : billboardSet === "port-logistics"
-            ? "#7fe3ef"
-            : palette.roadsidePrimary;
-    const secondary =
-      billboardSet === "luxury-neon"
-        ? "#ff83d2"
-        : billboardSet === "festival-posters"
-          ? "#ff7c8f"
-          : billboardSet === "port-logistics"
-            ? "#ffb45f"
-            : palette.roadsideSecondary;
+    // Two legs and a catwalk under the face.
+    ctx.fillStyle = this.withAlpha(palette.nearSilhouette, 0.92);
+    const leg = Math.max(1, width * 0.035);
+    ctx.fillRect(anchorX + width * 0.22 - leg / 2, bottom, leg, postHeight);
+    ctx.fillRect(anchorX + width * 0.78 - leg / 2, bottom, leg, postHeight);
+    ctx.fillRect(anchorX + width * 0.04, bottom, width * 0.92, Math.max(1, height * 0.05));
 
-    this.ctx.fillStyle = this.withAlpha(primary, 0.9);
-    this.ctx.fillRect(anchorX, y - postHeight - height, width, height);
-    this.ctx.fillStyle = this.withAlpha(secondary, 0.9);
-    this.ctx.fillRect(anchorX + width * 0.08, y - postHeight - height * 0.78, width * 0.84, height * 0.2);
-    this.ctx.fillStyle = "#09101d";
-    this.ctx.fillRect(anchorX + width * 0.08, y - postHeight - height * 0.44, width * 0.54, height * 0.16);
-    this.ctx.fillRect(anchorX + width * 0.08, y - postHeight - height * 0.18, width * 0.72, height * 0.12);
+    const face = width >= 18 ? this.billboardFaces.get(billboardSet, slot) : null;
+    if (face) {
+      ctx.drawImage(face, anchorX, top, width, height);
+    } else {
+      ctx.fillStyle = getSignFlatColor(billboardSet);
+      ctx.fillRect(anchorX, top, width, height);
+    }
   }
 
   private drawMarkers(snapshot: RenderSnapshot, palette: ThemePalette, horizonY: number) {
