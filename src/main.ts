@@ -303,6 +303,7 @@ class RedlineHorizonApp {
   private bannerTimer = 0;
   private lastOverlayMarkup = "";
   private uiDirty = true;
+  private roadFeedOpen = loadHudPrefs().roadFeedOpen;
 
   constructor(root: HTMLElement) {
     this.root = root;
@@ -394,6 +395,16 @@ class RedlineHorizonApp {
     if (action === "resume-drive") {
       this.paused = false;
       crazyGameplayStart();
+      this.uiDirty = true;
+      this.renderChrome();
+      return;
+    }
+
+    if (action === "toggle-road-feed") {
+      this.roadFeedOpen = !this.roadFeedOpen;
+      saveHudPrefs({ roadFeedOpen: this.roadFeedOpen });
+      // Drop focus so Space or Enter keep driving the game instead of re-toggling the panel.
+      button.blur();
       this.uiDirty = true;
       this.renderChrome();
       return;
@@ -801,7 +812,9 @@ class RedlineHorizonApp {
 
   private showBanner(banner: BannerState) {
     this.banner = banner;
-    this.bannerTimer = banner.tone === "scenic" ? 3.2 : 2.4;
+    // Impacts and near misses are quick flashes; story and route beats linger a little longer.
+    this.bannerTimer =
+      banner.tone === "danger" ? 1.2 : banner.tone === "scenic" ? 3.2 : banner.title === "Near miss" ? 1.4 : 2.4;
   }
 
   private renderScene() {
@@ -933,6 +946,7 @@ class RedlineHorizonApp {
       banner: this.banner,
       bannerVisible: this.bannerTimer > 0,
       menuBranch: this.menuBranch,
+      roadFeedOpen: this.roadFeedOpen,
       attractCard: ATTRACT_CARDS[Math.floor(this.menuDistance / 550) % ATTRACT_CARDS.length],
     };
   }
@@ -1020,6 +1034,29 @@ class RedlineHorizonApp {
 
   private queryOptional<T extends HTMLElement>(selector: string) {
     return this.root.querySelector<T>(selector);
+  }
+}
+
+type HudPrefs = { roadFeedOpen: boolean };
+
+// HUD layout preferences live apart from the game profile, so review mode still writes no progress.
+const HUD_PREFS_KEY = "redline-horizon.hud-prefs.v1";
+
+function loadHudPrefs(): HudPrefs {
+  try {
+    const raw = window.localStorage.getItem(HUD_PREFS_KEY);
+    const parsed = raw ? (JSON.parse(raw) as Partial<HudPrefs>) : {};
+    return { roadFeedOpen: parsed.roadFeedOpen === true };
+  } catch {
+    return { roadFeedOpen: false };
+  }
+}
+
+function saveHudPrefs(prefs: HudPrefs) {
+  try {
+    window.localStorage.setItem(HUD_PREFS_KEY, JSON.stringify(prefs));
+  } catch {
+    // Storage can be blocked (private mode); the toggle still works for this session.
   }
 }
 

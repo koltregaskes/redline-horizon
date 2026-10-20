@@ -50,6 +50,8 @@ export type AppViewModel = {
   bannerVisible: boolean;
   menuBranch: BranchId;
   attractCard: AttractCard;
+  /** Drive HUD: whether the Road Feed details are expanded (remembered per browser). */
+  roadFeedOpen: boolean;
 };
 
 export function getShellMarkup() {
@@ -302,42 +304,50 @@ export function getFeaturePanelMarkup(model: AppViewModel) {
   }
 
   if (model.screen === "drive" && model.snapshot) {
+    const open = model.roadFeedOpen;
     return `
-      <div class="drive-card">
-        <p class="eyebrow">Road feed</p>
-        <strong class="drive-stage-title">${model.snapshot.stageLabel}</strong>
-        <p class="support-copy" data-field="stage-description">${model.snapshot.stageDescription}</p>
+      <div class="drive-card ${open ? "is-open" : "is-collapsed"}">
+        <div class="drive-card-head">
+          <div class="drive-card-title">
+            <p class="eyebrow">Road feed</p>
+            <strong class="drive-stage-title">${model.snapshot.stageLabel}</strong>
+          </div>
+          <div class="drive-card-tools">
+            <button class="mini-button" data-action="pause-drive" aria-label="Pause the run">Pause</button>
+            <button class="mini-button" data-action="toggle-road-feed" aria-expanded="${open}" aria-controls="drive-details" aria-label="${open ? "Hide road feed details" : "Show road feed details"}">${open ? "&minus;" : "+"}</button>
+          </div>
+        </div>
         <div class="route-meter">
           <div class="route-meter-fill" data-field="route-fill" style="width:${Math.round(
             (model.snapshot.distance / RUN_DISTANCE) * 100,
           )}%"></div>
         </div>
-        <div class="drive-row">
-          <span>Route progress</span>
-          <strong data-field="distance">${formatMeters(model.snapshot.distance)} / ${formatMeters(RUN_DISTANCE)}</strong>
-        </div>
-        <div class="drive-row">
-          <span>Branch</span>
-          <strong data-field="branch">${
-            model.snapshot.branchChoice
-              ? getBranchById(model.snapshot.branchChoice, routeTree.id).name
-              : "Choose at split"
-          }</strong>
-        </div>
-        <div class="drive-row">
-          <span>Traffic cleared</span>
-          <strong>${model.snapshot.dodged}</strong>
-        </div>
-        <div class="drive-row">
-          <span>Near misses</span>
-          <strong data-field="near-misses">${model.snapshot.nearMisses}</strong>
-        </div>
-        <div class="drive-row">
-          <span>Collisions</span>
-          <strong data-field="collisions">${model.snapshot.collisions}</strong>
-        </div>
-        <div class="panel-actions">
-          <button class="ghost-button" data-action="pause-drive">Pause</button>
+        <div class="drive-details" id="drive-details" ${open ? "" : "hidden"}>
+          <p class="support-copy" data-field="stage-description">${model.snapshot.stageDescription}</p>
+          <div class="drive-row">
+            <span>Route progress</span>
+            <strong data-field="distance">${formatMeters(model.snapshot.distance)} / ${formatMeters(RUN_DISTANCE)}</strong>
+          </div>
+          <div class="drive-row">
+            <span>Branch</span>
+            <strong data-field="branch">${
+              model.snapshot.branchChoice
+                ? getBranchById(model.snapshot.branchChoice, routeTree.id).name
+                : "Choose at split"
+            }</strong>
+          </div>
+          <div class="drive-row">
+            <span>Traffic cleared</span>
+            <strong>${model.snapshot.dodged}</strong>
+          </div>
+          <div class="drive-row">
+            <span>Near misses</span>
+            <strong data-field="near-misses">${model.snapshot.nearMisses}</strong>
+          </div>
+          <div class="drive-row">
+            <span>Collisions</span>
+            <strong data-field="collisions">${model.snapshot.collisions}</strong>
+          </div>
         </div>
       </div>
     `;
@@ -658,8 +668,11 @@ export function getOverlayMarkup(model: AppViewModel) {
   }
 
   if (model.banner && model.bannerVisible) {
+    // Drive banners are small edge-anchored toasts so the road ahead stays clear.
+    // An impact adds a short red flash around the screen edge instead of a centre card.
     return `
-      <div class="overlay-card banner-card tone-${model.banner.tone}">
+      ${model.banner.tone === "danger" ? `<div class="impact-flash" aria-hidden="true"></div>` : ""}
+      <div class="drive-toast tone-${model.banner.tone}" role="status">
         <span class="route-label">${model.banner.kicker}</span>
         <strong>${model.banner.title}</strong>
         <p>${model.banner.subtitle}</p>
