@@ -825,6 +825,7 @@ class RedlineHorizonApp {
     const timer = this.queryOptional<HTMLElement>("[data-field='timer']");
     const checkpoint = this.queryOptional<HTMLElement>("[data-field='checkpoint']");
     const speed = this.queryOptional<HTMLElement>("[data-field='speed']");
+    const boost = this.queryOptional<HTMLElement>("[data-field='boost']");
     const score = this.queryOptional<HTMLElement>("[data-field='score']");
     const branch = this.queryOptional<HTMLElement>("[data-field='branch']");
     const prompt = this.queryOptional<HTMLElement>("[data-field='prompt']");
@@ -844,6 +845,11 @@ class RedlineHorizonApp {
     }
     if (speed) {
       speed.textContent = `${Math.round(this.lastSnapshot.speed)} km/h`;
+    }
+
+    if (boost) {
+      boost.textContent = `${Math.round(this.lastSnapshot.boostCharge * 100)}%`;
+      boost.parentElement?.classList.toggle("boosting", this.lastSnapshot.boosting);
     }
     if (score) {
       score.textContent = `${Math.round(this.lastSnapshot.score)}`;

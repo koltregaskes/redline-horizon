@@ -5,6 +5,7 @@ export type Action =
   | "right"
   | "accelerate"
   | "brake"
+  | "boost"
   | "confirm"
   | "back";
 
@@ -17,6 +18,7 @@ const KEYMAP = new Map<string, Action>([
   ["w", "accelerate"],
   ["arrowdown", "brake"],
   ["s", "brake"],
+  ["shift", "boost"],
   ["enter", "confirm"],
   [" ", "confirm"],
   ["escape", "back"],
@@ -25,6 +27,7 @@ const KEYMAP = new Map<string, Action>([
 const GAMEPAD_BUTTON_MAP: Array<{ index: number; action: Action }> = [
   { index: 0, action: "confirm" },
   { index: 1, action: "back" },
+  { index: 5, action: "boost" },
   { index: 6, action: "brake" },
   { index: 7, action: "accelerate" },
   { index: 12, action: "accelerate" },
@@ -83,6 +86,7 @@ export class InputController {
     return {
       accelerate: this.held.has("accelerate") || this.gamepadHeld.has("accelerate"),
       brake: this.held.has("brake") || this.gamepadHeld.has("brake"),
+      boost: this.held.has("boost") || this.gamepadHeld.has("boost"),
       left: this.held.has("left") || this.gamepadHeld.has("left"),
       right: this.held.has("right") || this.gamepadHeld.has("right"),
     };

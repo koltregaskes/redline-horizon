@@ -89,6 +89,7 @@ Review mode uses a deterministic in-memory profile and does not write live save 
 ## Controls
 
 - `Arrow keys` or `WASD` to drive
+- `Shift` or the gamepad shoulder button to boost
 - `Gamepad left stick` or `d-pad` to steer
 - `Gamepad right trigger` / `left trigger` to accelerate and brake
 - `Enter` / `Space` / `Gamepad A` for primary menu actions

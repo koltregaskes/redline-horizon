@@ -196,6 +196,11 @@ button {
   box-shadow: 0 0 0 1px rgba(255, 205, 108, 0.16) inset, var(--shadow);
 }
 
+.hud-chip.boosting {
+  border-color: rgba(255, 122, 82, 0.72);
+  box-shadow: 0 0 0 1px rgba(255, 122, 82, 0.2) inset, var(--shadow);
+}
+
 .brand-chip strong,
 .hud-chip strong,
 .panel-copy h1,

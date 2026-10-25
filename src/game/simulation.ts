@@ -62,6 +62,8 @@ export class DriveSimulation {
   private summary: SummaryStats | null = null;
   private lastSteerDirection: -1 | 0 | 1 = 0;
   private cameraShake = 0;
+  private boostCharge = 1;
+  private boosting = false;
   private randomState = 0x12345678;
 
   constructor(
@@ -162,9 +164,11 @@ export class DriveSimulation {
       this.speed -= brakingForce * dt;
     }
 
-    this.speed += this.getDraftBonus(dt);
+    const draftBonus = this.getDraftBonus(dt);
+    this.speed += draftBonus;
+    const speedCap = this.applyBoost(dt, input, draftBonus > 0);
     this.speed -= Math.abs(this.drift) * 10 * dt;
-    this.speed = clamp(this.speed, 0, maxSpeed);
+    this.speed = clamp(this.speed, 0, speedCap);
 
     const roadCurve = this.computeRoadCurve();
     this.drift += steerInput * gripFactor * dt;
@@ -237,6 +241,8 @@ export class DriveSimulation {
       render,
       distance: this.distance,
       speed: this.speed,
+      boostCharge: this.boostCharge,
+      boosting: this.boosting,
       timer: this.timer,
       score: this.score,
       dodged: this.dodged,
@@ -276,6 +282,20 @@ export class DriveSimulation {
     }
 
     return (this.car.draftGain - 0.92) * 24 * dt;
+  }
+
+  private applyBoost(dt: number, input: InputSnapshot, drafting: boolean) {
+    const canBoost = input.boost && input.accelerate && !input.brake && this.boostCharge > 0;
+    if (canBoost) {
+      this.boosting = true;
+      this.speed += (64 + this.car.boost * 110) * dt;
+      this.boostCharge = Math.max(0, this.boostCharge - (0.48 / Math.max(this.car.boost, 0.55)) * dt);
+      return this.car.topSpeed * (1 + 0.05 + this.car.boost * 0.08);
+    }
+
+    this.boosting = false;
+    this.boostCharge = Math.min(1, this.boostCharge + (0.14 + (drafting ? 0.2 : 0)) * dt);
+    return this.car.topSpeed;
   }
 
   private advanceTraffic(dt: number, segment: ScenicSegment) {
@@ -606,7 +626,7 @@ export class DriveSimulation {
         return "Mirador City gate closes at the skyline. Make every checkpoint count.";
       }
 
-      return "Arrow keys or WASD to drive. Gamepad steering, triggers, and face buttons are also live.";
+      return "Arrow keys or WASD to drive. Hold Shift to boost. Gamepad steering, triggers, and the shoulder button are also live.";
     }
 
     if (

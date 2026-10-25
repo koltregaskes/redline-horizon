@@ -67,6 +67,7 @@ export function getShellMarkup() {
         <div class="touch-controls" id="touch-controls">
           <button class="touch-button steer" data-touch="left">Left</button>
           <button class="touch-button throttle" data-touch="accelerate">Go</button>
+          <button class="touch-button boost" data-touch="boost">Boost</button>
           <button class="touch-button throttle" data-touch="brake">Brake</button>
           <button class="touch-button steer" data-touch="right">Right</button>
         </div>
@@ -97,6 +98,10 @@ export function getTopBarMarkup(model: AppViewModel) {
       <div class="hud-chip">
         <span class="label">Speed</span>
         <strong data-field="speed">${Math.round(model.snapshot.speed)} km/h</strong>
+      </div>
+      <div class="hud-chip ${model.snapshot.boosting ? "boosting" : ""}">
+        <span class="label">Boost</span>
+        <strong data-field="boost">${Math.round(model.snapshot.boostCharge * 100)}%</strong>
       </div>
       <div class="hud-chip">
         <span class="label">Score</span>
@@ -199,6 +204,7 @@ export function getFeaturePanelMarkup(model: AppViewModel) {
         ${statMeter("Top speed", car.topSpeed / 260, `${car.topSpeed} km/h`)}
         ${statMeter("Acceleration", car.acceleration, `${Math.round(car.acceleration * 100)} / 100`)}
         ${statMeter("Grip", car.grip, `${Math.round(car.grip * 100)} / 100`)}
+        ${statMeter("Boost", car.boost, `${Math.round(car.boost * 100)} / 100`)}
         ${statMeter("Draft gain", car.draftGain / 1.1, `${Math.round(car.draftGain * 100)} / 100`)}
       </div>
       <div class="panel-actions">
@@ -569,7 +575,7 @@ export function getBottomRailMarkup(model: AppViewModel) {
       <strong>${
         model.reviewMode
           ? "Review profile active. This route is isolated from live save data."
-          : "Controls: arrows or WASD, gamepad stick or d-pad."
+          : "Controls: arrows or WASD, Shift to boost, gamepad stick or d-pad."
       }</strong>
       <span>${
         model.reviewMode

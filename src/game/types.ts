@@ -298,6 +298,7 @@ export interface RenderSnapshot {
 export interface InputSnapshot {
   accelerate: boolean;
   brake: boolean;
+  boost: boolean;
   left: boolean;
   right: boolean;
 }
@@ -323,6 +324,8 @@ export interface DriveSnapshot {
   render: RenderSnapshot;
   distance: number;
   speed: number;
+  boostCharge: number;
+  boosting: boolean;
   timer: number;
   score: number;
   dodged: number;

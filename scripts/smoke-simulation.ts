@@ -22,6 +22,7 @@ function createInput(overrides: Partial<InputSnapshot> = {}): InputSnapshot {
   return {
     accelerate: false,
     brake: false,
+    boost: false,
     left: false,
     right: false,
     ...overrides,
@@ -351,6 +352,49 @@ function validateContentContracts() {
   assert(getMusicPackById(MUSIC_PACKS[0].id).id === MUSIC_PACKS[0].id, "music lookup contract is broken");
 }
 
+function runBoostSmoke() {
+  const shared = {
+    car: getCarById("monarch-xr"),
+    music: getMusicPackById(MUSIC_PACKS[0].id),
+    route: PRIMARY_ROUTE_TREE.id,
+  };
+  const farTraffic = [
+    {
+      id: 1,
+      lane: 0.9,
+      z: 3.4,
+      color: "#ffffff",
+      speedFactor: 0.7,
+      passed: false,
+      nearMissed: false,
+      widthScale: 1,
+      headlights: false,
+    },
+  ];
+  const cruise = new DriveSimulation(shared.car, shared.music, shared.route, {
+    tutorialEnabled: false,
+    initialState: { distance: 400, speed: 180, timer: 80, countdown: 0, lateral: 0, traffic: farTraffic },
+  });
+  const boosted = new DriveSimulation(shared.car, shared.music, shared.route, {
+    tutorialEnabled: false,
+    initialState: { distance: 400, speed: 180, timer: 80, countdown: 0, lateral: 0, traffic: farTraffic },
+  });
+  const cruiseInput = createInput({ accelerate: true });
+  const boostInput = createInput({ accelerate: true, boost: true });
+  for (let step = 0; step < 120; step += 1) {
+    cruise.update(STEP_SECONDS, cruiseInput);
+    boosted.update(STEP_SECONDS, boostInput);
+  }
+  const cruiseSnapshot = cruise.getSnapshot(false);
+  const boostSnapshot = boosted.getSnapshot(false);
+  assert(boostSnapshot.speed > cruiseSnapshot.speed + 8, "boost should outrun a cruise at the same throttle");
+  assert(boostSnapshot.boosting, "boost should stay active while the tank has charge");
+  assert(boostSnapshot.boostCharge < 0.85, "boost should spend charge");
+  assert(cruiseSnapshot.boostCharge > boostSnapshot.boostCharge, "cruising should keep more boost charge");
+  assert(boostSnapshot.speed > shared.car.topSpeed, "boost should push past the car's cruise top speed");
+  return "boost";
+}
+
 function main() {
   validateContentContracts();
   const completed: string[] = [];
@@ -361,6 +405,7 @@ function main() {
   completed.push(runAfterglowSetpieceSmoke());
   completed.push(runAfterglowSuccessSmoke());
   completed.push(runTimeoutSmoke());
+  completed.push(runBoostSmoke());
 
   console.log(`Redline Horizon simulation smoke passed: ${completed.join(", ")}`);
 }
