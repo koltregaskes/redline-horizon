@@ -426,11 +426,11 @@ export function getSidePanelMarkup(model: AppViewModel) {
     const summaryRoute = getRouteTreeById(model.summary.record.routeTreeId);
     return `
       <div class="info-card">
-        <p class="eyebrow">${model.summary.outcome === "timeout" ? "Missed destination" : "Destination"}</p>
+        <p class="eyebrow">${model.summary.outcome === "timeout" ? "Loss" : "Destination"}</p>
         <strong>${model.summary.ending.destination}</strong>
         <p>${
           model.summary.outcome === "timeout"
-            ? `This is the arrival you were chasing. The route still reads beautifully, which makes the miss sting in a useful way for the public demo.`
+            ? `The timer hit 0 before the ${formatMeters(RUN_DISTANCE)} finish. A timeout is a loss.`
             : model.summary.ending.postcard
         }</p>
       </div>
@@ -837,9 +837,9 @@ function getSummaryHeroMarkup(summary: SummaryStats) {
   if (summary.outcome === "timeout") {
     return `
       <div class="summary-hero summary-hero-failure">
-        <span class="route-label">Failure-state mood</span>
-        <strong>${summary.ending.destination} stays just out of reach</strong>
-        <p>${routeTree.presentation.destinationGlow} The point of this slice is not punishment. It is to prove the demo can land a stylish near-miss and still leave a strong emotional afterimage.</p>
+        <span class="route-label">Loss</span>
+        <strong>Timeout. This run is a loss.</strong>
+        <p>The timer hit 0 before the ${formatMeters(RUN_DISTANCE)} finish. A timeout is a loss. Drive again restarts the route.</p>
       </div>
     `;
   }
@@ -858,14 +858,14 @@ function getSummaryPayoffMarkup(summary: SummaryStats, musicPackName: string) {
     return `
       <div class="summary-payoff-grid">
         <div class="summary-payoff-card summary-payoff-card-failure">
-          <span class="route-label">What slipped away</span>
+          <span class="route-label">Unfinished route</span>
           <strong>${summary.ending.destination}</strong>
-          <p>The lights are visible, the crowd is close, and the finish still reads clearly. That contrast makes the miss feel intentional instead of flat.</p>
+          <p>The destination was still ahead when the timer hit 0. That is a loss.</p>
         </div>
         <div class="summary-payoff-card summary-payoff-card-failure">
-          <span class="route-label">Recovery hook</span>
-          <strong>${musicPackName}</strong>
-          <p>One cleaner checkpoint chain and this exact route turns from heartbreak into arrival. That is the replay promise this demo should leave behind.</p>
+          <span class="route-label">Restart</span>
+          <strong>Drive again</strong>
+          <p>Drive again restarts this route from the brief. Finish the ${formatMeters(RUN_DISTANCE)} before the timer hits 0. ${musicPackName} stays with the next run.</p>
         </div>
       </div>
     `;

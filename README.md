@@ -1,8 +1,8 @@
 # Redline Horizon
 
-`Redline Horizon` is a browser-first retro road-trip racer demo aimed at a larger desktop arcade game inspired by *Lotus III*, *OutRun*, *Slipstream*, and modern postcard racers.
+Redline Horizon is a browser road-trip racer inspired by *Lotus III*, *OutRun*, *Slipstream*, and modern postcard racers. A run is done when you finish the 9.2 km route before the timer hits 0. The broader desktop direction lives in [DESIGN-BIBLE.md](./DESIGN-BIBLE.md). The Godot tree is a spike, not the launch path.
 
-The current Phase 1.5 slice includes:
+The game includes:
 
 - title flow with `Start Drive`, a route brief, `Car Select`, `Music Select`, `Records`, and `Options`
 - two complete route boards built on the same coastal start, each with checkpoint pressure and a route split between a lower line and a high line
@@ -10,53 +10,65 @@ The current Phase 1.5 slice includes:
 - contextual tutorial prompts, radio/rival/scenic event banners, and an attract-style title presentation
 - authored manifest-driven content for `cars`, `music_packs`, `stages`, `route_tree`, and `story_beats`
 - native browser audio with music sections for cruise, branch, and finish phases
-- shared JSON exports plus a Godot Phase 2 spike scaffold that loads the same content data
-
-The broader direction lives in [DESIGN-BIBLE.md](./DESIGN-BIBLE.md).
+- shared JSON exports plus a Godot spike scaffold that loads the same content data
 
 ## Local development
 
 Install dependencies:
 
-```powershell
-npm.cmd install
+```bash
+npm install
 ```
 
 Run the dev server:
 
-```powershell
-npm.cmd run dev
+```bash
+npm run dev
 ```
+
+On Windows, `npm.cmd install` and `npm.cmd run dev` run the same scripts.
 
 Build for production:
 
-```powershell
-npm.cmd run build
+```bash
+npm run build
 ```
 
 Export the shared content manifests for the browser and Godot spike:
 
-```powershell
-npm.cmd run export:data
+```bash
+npm run export:data
 ```
 
 Run the no-browser simulation smoke:
 
-```powershell
-npm.cmd run smoke:simulation
+```bash
+npm run smoke:simulation
 ```
 
 Preview the built site locally:
 
-```powershell
-npm.cmd run preview
+```bash
+npm run preview
 ```
 
 Generate the full review evidence pack from the built site:
 
-```powershell
-npm.cmd run review:pack
+```bash
+npm run review:pack
 ```
+
+## How to play
+
+1. From the title screen, choose **Start drive**.
+2. Read the route brief. It states the goal for the selected board.
+3. Choose **Launch drive**, then race with the controls below.
+
+Done means you finish the 9.2 km route before the timer hits 0. Checkpoints add time. At the split, steer left for the lower line or right for the upper line. Reaching the end opens a medal summary. That is a win.
+
+A timeout is a loss. If the timer hits 0, the run ends even if the destination is still ahead.
+
+**Drive again** on the summary screen restarts from the route brief. **Back to title** leaves the run.
 
 ## Review URL
 
@@ -96,7 +108,8 @@ Review mode uses a deterministic in-memory profile and does not write live save 
 - `Escape` / `Gamepad B` for back or pause
 - mobile touch controls appear automatically on narrow screens
 
-## Data and Phase 2
+## Data and the Godot spike
 
 - shared JSON manifests are written to `shared-data/` and mirrored into `godot/data/`
-- the Godot 4 spike scaffold lives in [godot/README.md](./godot/README.md)
+- the Godot 4 tree in [godot/README.md](./godot/README.md) is a spike, not the launch path
+- launch the playable game with `npm install` and `npm run dev`
